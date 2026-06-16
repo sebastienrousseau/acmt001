@@ -25,7 +25,7 @@ import pytest
 
 pytest.importorskip("pygls")
 
-from acmt001.lsp import server as lsp_server  # noqa: E402
+import acmt001_lsp.server as lsp_server  # noqa: E402
 
 
 def test_valid_records_produce_no_diagnostics(sample_record):

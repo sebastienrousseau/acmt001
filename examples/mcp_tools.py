@@ -15,11 +15,11 @@ import json
 from pathlib import Path
 
 try:
-    from acmt001.mcp.server import server
+    from acmt001_mcp.server import server
 except ModuleNotFoundError:
     raise SystemExit(
-        "The MCP server requires the optional 'servers' extra:\n"
-        '    pip install "acmt001[servers]"   (Python 3.10+)'
+        "The MCP server lives in the companion package acmt001-mcp:\n"
+        '    pip install acmt001-mcp   (Python 3.10+)'
     ) from None
 
 record = json.loads(

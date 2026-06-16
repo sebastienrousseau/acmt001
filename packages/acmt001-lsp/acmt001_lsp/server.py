@@ -58,10 +58,9 @@ from __future__ import annotations
 import json
 from typing import Any
 
+from acmt001 import services
 from lsprotocol import types as lsp
 from pygls.lsp.server import LanguageServer
-
-from acmt001 import services
 
 DEFAULT_MESSAGE_TYPE = "acmt.007.001.05"
 

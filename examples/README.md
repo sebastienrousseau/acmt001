@@ -18,13 +18,13 @@ python examples/<name>.py
 | [`compliance_cleansing.py`](compliance_cleansing.py) | SWIFT charset validation, transliteration, length enforcement |
 | [`account_management.py`](account_management.py) | End-to-end: cleanse → validate → open + close an account |
 | [`rest_api_client.py`](rest_api_client.py) | Drive the REST API (health, types, validate, generate, portals) |
-| [`mcp_tools.py`](mcp_tools.py) | Call the MCP server's six tools (needs `acmt001[servers]`) |
-| [`lsp_helpers.py`](lsp_helpers.py) | The LSP diagnostics / completion / hover helpers (needs `acmt001[servers]`) |
+| [`mcp_tools.py`](mcp_tools.py) | Call the MCP server's six tools (needs `acmt001-mcp`) |
+| [`lsp_helpers.py`](lsp_helpers.py) | The LSP diagnostics / completion / hover helpers (needs `acmt001-lsp`) |
 
-The MCP and LSP examples require the optional servers extra:
+The MCP and LSP examples require their companion packages:
 
 ```sh
-pip install "acmt001[servers]"   # Python 3.10+
+pip install acmt001-mcp acmt001-lsp   # Python 3.10+
 ```
 
 Bundled sample data: `accounts.csv`, `accounts.json`, `accounts.jsonl`.

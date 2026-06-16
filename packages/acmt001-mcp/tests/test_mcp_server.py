@@ -24,7 +24,7 @@ pytest.importorskip("mcp")
 
 from mcp.server.fastmcp import FastMCP  # noqa: E402
 
-import acmt001.mcp.server as server  # noqa: E402
+import acmt001_mcp.server as server  # noqa: E402
 
 EXPECTED_TOOLS = {
     "list_message_types",

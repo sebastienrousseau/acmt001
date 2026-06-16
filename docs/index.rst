@@ -25,11 +25,11 @@ Four developer-facing surfaces sit on top of one shared service layer
 * **LSP server** — a Language Server (``acmt001-lsp``) providing diagnostics,
   completion, and hover for account-data JSON files in editors.
 
-The MCP and LSP servers are an optional extra (Python 3.10+):
+The MCP and LSP servers ship as companion packages (Python 3.10+):
 
 .. code-block:: sh
 
-   pip install "acmt001[servers]"
+   pip install acmt001-mcp acmt001-lsp
 
 Runnable, self-contained examples for every feature live in the ``examples/``
 directory (see ``examples/README.md``).

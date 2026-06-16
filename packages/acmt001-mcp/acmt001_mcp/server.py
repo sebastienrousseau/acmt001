@@ -51,9 +51,8 @@ The server communicates over stdio (FastMCP's default transport).
 
 import json
 
-from mcp.server.fastmcp import FastMCP
-
 from acmt001 import services
+from mcp.server.fastmcp import FastMCP
 
 server = FastMCP("acmt001")
 

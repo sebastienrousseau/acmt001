@@ -24,11 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - FastAPI REST API with async job management, message-type and
   identifier endpoints, and an interactive developer portal (Scalar,
   Swagger UI, ReDoc)
-- Model Context Protocol (MCP) server exposing acmt001 as agent tools
-  (`acmt001-mcp`, optional `servers` extra, Python 3.10+)
-- Language Server Protocol (LSP) server for authoring account-data JSON
-  with diagnostics, completion, and hover (`acmt001-lsp`, optional
-  `servers` extra, Python 3.10+)
+- Companion package `acmt001-mcp`: a Model Context Protocol server
+  exposing acmt001 as agent tools (Python 3.10+)
+- Companion package `acmt001-lsp`: a Language Server for authoring
+  account-data JSON with diagnostics, completion, and hover (Python 3.10+)
 - Shared service facade (`acmt001.services`) backing the CLI, API, MCP,
   and LSP interfaces
 - Click-based CLI for batch processing

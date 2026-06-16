@@ -13,11 +13,11 @@ that you can call directly — exactly what the server runs on each edit.
 import json
 
 try:
-    from acmt001.lsp import server as lsp
+    import acmt001_lsp.server as lsp
 except ModuleNotFoundError:
     raise SystemExit(
-        "The LSP server requires the optional 'servers' extra:\n"
-        '    pip install "acmt001[servers]"   (Python 3.10+)'
+        "The LSP server lives in the companion package acmt001-lsp:\n"
+        '    pip install acmt001-lsp   (Python 3.10+)'
     ) from None
 
 # --- Diagnostics: a valid record vs. common mistakes ------------------------

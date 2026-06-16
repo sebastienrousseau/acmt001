@@ -88,10 +88,11 @@ Verify the installation:
 python -c "from acmt001 import generate_xml_string; print('Acmt001 ready')"
 ```
 
-The MCP and LSP servers are an optional extra (they require **Python 3.10+**):
+The MCP and LSP servers ship as companion packages (Python 3.10+):
 
 ```sh
-python -m pip install "acmt001[servers]"
+python -m pip install acmt001-mcp    # Model Context Protocol server
+python -m pip install acmt001-lsp    # Language Server Protocol server
 ```
 
 <details>
@@ -355,8 +356,8 @@ script for every feature area (run any with `python examples/<name>.py`):
 | `validation_service.py` | `ValidationService` pre-flight + `SchemaValidator` |
 | `compliance_cleansing.py` | SWIFT charset validation, transliteration, length enforcement |
 | `rest_api_client.py` | Driving the REST API in-process |
-| `mcp_tools.py` | Calling the MCP server's tools (needs `acmt001[servers]`) |
-| `lsp_helpers.py` | The LSP diagnostics / completion / hover helpers (needs `acmt001[servers]`) |
+| `mcp_tools.py` | Calling the MCP server's tools (needs `acmt001-mcp` / `acmt001-lsp`) |
+| `lsp_helpers.py` | The LSP diagnostics / completion / hover helpers (needs `acmt001-mcp` / `acmt001-lsp`) |
 
 ### Streaming large datasets
 
@@ -421,12 +422,13 @@ Once the server is running, three documentation surfaces are available:
 
 ## MCP Server
 
-Acmt001 ships a [Model Context Protocol](https://modelcontextprotocol.io)
-server so AI agents and assistants can generate and validate ISO 20022 account
-messages as first-class tools. Install the extra (`pip install
-"acmt001[servers]"`) and launch over stdio:
+The companion package **`acmt001-mcp`** is a
+[Model Context Protocol](https://modelcontextprotocol.io) server so AI agents
+and assistants can generate and validate ISO 20022 account messages as
+first-class tools. Install it and launch over stdio:
 
 ```sh
+pip install acmt001-mcp   # Python 3.10+
 acmt001-mcp
 ```
 
@@ -453,13 +455,15 @@ Register it with any MCP client (e.g. Claude Desktop) by adding to its config:
 
 ## Language Server (LSP)
 
-Acmt001 ships a [pygls](https://github.com/openlawlibrary/pygls)-based Language
-Server that brings real-time help to editors when authoring **account-data JSON
-files** — diagnostics for missing required fields and invalid IBAN/BIC/LEI
-values, completion for field names and message types, and hover documentation
-from the input schema. Install the extra and launch over stdio:
+The companion package **`acmt001-lsp`** is a
+[pygls](https://github.com/openlawlibrary/pygls)-based Language Server that
+brings real-time help to editors when authoring **account-data JSON files** —
+diagnostics for missing required fields and invalid IBAN/BIC/LEI values,
+completion for field names and message types, and hover documentation from the
+input schema. Install it and launch over stdio:
 
 ```sh
+pip install acmt001-lsp   # Python 3.10+
 acmt001-lsp
 ```
 
@@ -551,11 +555,9 @@ against its XSD before being saved and is ready for submission to the servicer.
 ## Architecture
 
 ```text
-acmt001/
+acmt001/                  # the core package (this repo, packaged as `acmt001`)
 ├── api/          # FastAPI REST endpoints, async job manager, dev portal
 ├── cli/          # Click CLI for batch processing
-├── mcp/          # Model Context Protocol server (optional `servers` extra)
-├── lsp/          # Language Server Protocol server (optional `servers` extra)
 ├── compliance/   # Charset validation, transliteration, length enforcement
 ├── core/         # Processing pipeline: data → XML
 ├── csv/ json/ db/ parquet/ data/   # Format loaders + universal loader
@@ -565,7 +567,15 @@ acmt001/
 ├── templates/    # 34 Jinja2 templates + real ISO 20022 XSDs
 ├── validation/   # IBAN, BIC, LEI, and schema validators
 └── xml/          # XML generation, XSD validation, file I/O
+
+packages/                 # companion packages in the acmt001 suite
+├── acmt001-mcp/   # MCP server  (depends on acmt001, packaged as `acmt001-mcp`)
+└── acmt001-lsp/   # LSP server  (depends on acmt001, packaged as `acmt001-lsp`)
 ```
+
+The project is a **suite of independently installable packages**: the core
+`acmt001` (Python 3.9+), plus `acmt001-mcp` and `acmt001-lsp` (Python 3.10+),
+all sharing the `acmt001.services` layer.
 
 ## Development
 

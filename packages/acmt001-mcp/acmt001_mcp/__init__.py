@@ -13,4 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Model Context Protocol (MCP) server for Acmt001 (optional `servers` extra)."""
+"""acmt001-mcp: a Model Context Protocol server for the acmt001 library."""
+
+__version__ = "0.0.1"
