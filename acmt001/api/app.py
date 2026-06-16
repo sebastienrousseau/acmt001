@@ -21,16 +21,18 @@ import asyncio
 import os
 import tempfile
 from pathlib import Path
+from typing import Any
 
 from fastapi import FastAPI, HTTPException, status
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 
-from acmt001 import __version__
+from acmt001 import __version__, services
 from acmt001.api.job_manager import JobStatus, job_manager
 from acmt001.api.models import (
     GenerateXMLRequest,
     GenerateXMLResponse,
     HealthResponse,
+    IdentifierValidationRequest,
     JobStatusResponse,
     ValidationRequest,
     ValidationResponse,
@@ -175,6 +177,121 @@ app = FastAPI(
 )
 
 
+_GITHUB_URL = "https://github.com/sebastienrousseau/acmt001"
+
+_PORTAL_HTML = f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Acmt001 &mdash; Developer Portal</title>
+<style>
+  :root {{ color-scheme: light dark; }}
+  body {{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif;
+    max-width: 880px; margin: 0 auto; padding: 2.5rem 1.5rem;
+    line-height: 1.6; color: #1a1a1a; background: #ffffff;
+  }}
+  h1 {{ font-size: 1.9rem; margin-bottom: 0.25rem; }}
+  .sub {{ color: #555; margin-top: 0; }}
+  h2 {{ font-size: 1.2rem; margin-top: 2rem;
+    border-bottom: 1px solid #e2e2e2; padding-bottom: 0.3rem; }}
+  ul.links {{ list-style: none; padding: 0; }}
+  ul.links li {{ margin: 0.5rem 0; }}
+  a {{ color: #0b5fff; text-decoration: none; }}
+  a:hover {{ text-decoration: underline; }}
+  code {{ background: #f3f3f3; padding: 0.1rem 0.35rem;
+    border-radius: 4px; font-size: 0.9em; }}
+  table {{ border-collapse: collapse; width: 100%; margin-top: 0.5rem; }}
+  th, td {{ text-align: left; padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid #ececec; font-size: 0.92rem; }}
+  th {{ background: #fafafa; }}
+  footer {{ margin-top: 2.5rem; color: #888; font-size: 0.85rem; }}
+</style>
+</head>
+<body>
+<h1>Acmt001 &mdash; Developer Portal</h1>
+<p class="sub">RESTful API for ISO 20022 acmt Account Management XML
+generation and validation. Version {__version__}.</p>
+
+<h2>Documentation &amp; Tools</h2>
+<ul class="links">
+  <li><a href="/api/docs">Swagger UI</a> &mdash; interactive request explorer</li>
+  <li><a href="/api/redoc">ReDoc</a> &mdash; clean reference documentation</li>
+  <li><a href="/api/reference">Scalar</a> &mdash; modern interactive API reference</li>
+  <li><a href="/api/health">Health check</a> &mdash; service status</li>
+  <li><a href="/openapi.json">OpenAPI document</a> &mdash; machine-readable schema</li>
+  <li><a href="{_GITHUB_URL}">GitHub repository</a> &mdash; source code</li>
+</ul>
+
+<h2>Endpoints</h2>
+<table>
+  <tr><th>Method</th><th>Path</th><th>Description</th></tr>
+  <tr><td>GET</td><td><code>/api/health</code></td><td>Health check</td></tr>
+  <tr><td>GET</td><td><code>/api/message-types</code></td><td>List supported message types</td></tr>
+  <tr><td>GET</td><td><code>/api/message-types/{{message_type}}/schema</code></td><td>Input JSON Schema for a type</td></tr>
+  <tr><td>POST</td><td><code>/api/validate-identifier</code></td><td>Validate IBAN / BIC / LEI</td></tr>
+  <tr><td>POST</td><td><code>/api/validate</code></td><td>Validate account data file</td></tr>
+  <tr><td>POST</td><td><code>/api/generate</code></td><td>Generate XML (synchronous)</td></tr>
+  <tr><td>POST</td><td><code>/api/generate/async</code></td><td>Generate XML (asynchronous)</td></tr>
+  <tr><td>GET</td><td><code>/api/status/{{job_id}}</code></td><td>Get async job status</td></tr>
+  <tr><td>GET</td><td><code>/api/download/{{job_id}}</code></td><td>Download generated XML</td></tr>
+  <tr><td>DELETE</td><td><code>/api/jobs/{{job_id}}</code></td><td>Cancel an async job</td></tr>
+</table>
+
+<footer>Acmt001 &middot; Apache-2.0 &middot;
+<a href="{_GITHUB_URL}">{_GITHUB_URL}</a></footer>
+</body>
+</html>"""
+
+
+_SCALAR_HTML = """<!doctype html>
+<html>
+<head>
+<title>Acmt001 API Reference</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+<body>
+<script id="api-reference" data-url="/openapi.json"></script>
+<script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+</body>
+</html>"""
+
+
+@app.get(
+    "/",
+    response_class=HTMLResponse,
+    tags=["Portal"],
+    summary="Developer portal landing page",
+    include_in_schema=False,
+)
+async def portal() -> HTMLResponse:
+    """Serve the developer-portal landing page.
+
+    Returns:
+        HTMLResponse: The portal HTML page.
+    """
+    return HTMLResponse(content=_PORTAL_HTML)
+
+
+@app.get(
+    "/api/reference",
+    response_class=HTMLResponse,
+    tags=["Portal"],
+    summary="Scalar interactive API reference",
+    include_in_schema=False,
+)
+async def scalar_reference() -> HTMLResponse:
+    """Serve an interactive Scalar API reference.
+
+    Returns:
+        HTMLResponse: The Scalar reference HTML page.
+    """
+    return HTMLResponse(content=_SCALAR_HTML)
+
+
 @app.get(
     "/api/health",
     response_model=HealthResponse,
@@ -192,6 +309,74 @@ async def health() -> HealthResponse:
         version=__version__,
         message="Acmt001 API is running",
     )
+
+
+@app.get(
+    "/api/message-types",
+    tags=["Reference"],
+    summary="List supported message types",
+)
+async def list_message_types() -> list[dict[str, str]]:
+    """List every supported ISO 20022 acmt message type.
+
+    Returns:
+        A list of ``{"message_type": ..., "name": ...}`` dictionaries.
+    """
+    return services.list_message_types()
+
+
+@app.get(
+    "/api/message-types/{message_type}/schema",
+    tags=["Reference"],
+    summary="Get input schema for a message type",
+)
+async def get_message_type_schema(message_type: str) -> dict[str, Any]:
+    """Return the JSON Schema describing the flat input record for a type.
+
+    Args:
+        message_type: A supported ISO 20022 acmt message type.
+
+    Returns:
+        The parsed JSON Schema document.
+
+    Raises:
+        HTTPException: 404 if the message type is unsupported.
+    """
+    try:
+        return services.get_input_schema(message_type)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Unsupported message type: {message_type}",
+        ) from e
+
+
+@app.post(
+    "/api/validate-identifier",
+    tags=["Validation"],
+    summary="Validate a financial identifier (IBAN, BIC, LEI)",
+)
+async def validate_identifier(
+    request: IdentifierValidationRequest,
+) -> dict[str, Any]:
+    """Validate an IBAN, BIC, or LEI identifier.
+
+    Args:
+        request: Identifier validation request with kind and value.
+
+    Returns:
+        ``{"kind": str, "value": str, "valid": bool}``.
+
+    Raises:
+        HTTPException: 400 if the identifier kind is unsupported.
+    """
+    try:
+        return services.validate_identifier(request.kind, request.value)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+        ) from e
 
 
 @app.post(

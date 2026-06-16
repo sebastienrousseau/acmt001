@@ -205,3 +205,19 @@ class HealthResponse(BaseModel):
     status: str = Field(..., description="Service status")
     version: str = Field(..., description="API version")
     message: str = Field(..., description="Health check message")
+
+
+class IdentifierValidationRequest(BaseModel):
+    """Request model for financial identifier validation."""
+
+    kind: str = Field(
+        ...,
+        description="Identifier kind: 'iban', 'bic', or 'lei'",
+    )
+    value: str = Field(..., description="The identifier value to validate")
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {"kind": "bic", "value": "NWBKGB2LXXX"}
+        }
+    }

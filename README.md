@@ -30,7 +30,9 @@ maintain, close, switch, and verify bank accounts from plain data files.
 - [Input Data Format](#input-data-format)
 - [Library Usage](#library-usage)
 - [Examples](#examples)
-- [REST API (FastAPI)](#rest-api-fastapi)
+- [REST API & Developer Portal](#rest-api--developer-portal)
+- [MCP Server](#mcp-server)
+- [Language Server (LSP)](#language-server-lsp)
 - [Validation](#validation)
 - [Compliance & Cleansing](#compliance--cleansing)
 - [Output Files](#output-files)
@@ -84,6 +86,12 @@ Verify the installation:
 
 ```sh
 python -c "from acmt001 import generate_xml_string; print('Acmt001 ready')"
+```
+
+The MCP and LSP servers are an optional extra (they require **Python 3.10+**):
+
+```sh
+python -m pip install "acmt001[servers]"
 ```
 
 <details>
@@ -164,7 +172,9 @@ Exit code `0` = valid, `1` = validation failed.
 - **Type-safe** — full type hints, checked with `mypy --strict`.
 - **Well tested** — **987 tests at 99.88% branch coverage** across Python
   3.9–3.12; `ruff` + `black` clean.
-- **Two interfaces** — a Click CLI and a FastAPI REST API (sync + async jobs).
+- **Four interfaces** — a Click CLI, a FastAPI REST API (with an interactive
+  developer portal), an MCP server (for AI agents), and an LSP server (for
+  editors) — all backed by one shared service layer.
 - **34 message types** — the full account lifecycle (see below).
 
 ## Supported Messages
@@ -331,7 +341,7 @@ acmt001 -t acmt.019.001.04 \
 > The generated XML is automatically validated against its XSD before being
 > saved; on failure Acmt001 stops and prints the schema error.
 
-## REST API (FastAPI)
+## REST API & Developer Portal
 
 Acmt001 ships a production-ready REST API for web services and microservices.
 
@@ -348,7 +358,10 @@ gunicorn --workers 4 --worker-class uvicorn.workers.UvicornWorker \
 | Method | Path | Description |
 |--------|------|-------------|
 | `GET` | `/api/health` | Health check |
+| `GET` | `/api/message-types` | List all 34 supported message types |
+| `GET` | `/api/message-types/{type}/schema` | Input JSON Schema for a message type |
 | `POST` | `/api/validate` | Validate account data against a schema |
+| `POST` | `/api/validate-identifier` | Validate an IBAN, BIC, or LEI |
 | `POST` | `/api/generate` | Generate XML synchronously |
 | `POST` | `/api/generate/async` | Submit an asynchronous generation job |
 | `GET` | `/api/status/{job_id}` | Poll an async job |
@@ -358,9 +371,71 @@ gunicorn --workers 4 --worker-class uvicorn.workers.UvicornWorker \
 ```bash
 curl -s http://localhost:8000/api/health
 # {"status":"healthy","version":"0.0.1","message":"Acmt001 API is running"}
+
+curl -s -X POST http://localhost:8000/api/validate-identifier \
+  -H "Content-Type: application/json" \
+  -d '{"kind": "bic", "value": "NWBKGB2LXXX"}'
+# {"kind":"bic","value":"NWBKGB2LXXX","valid":true}
 ```
 
-Interactive Swagger UI is served at `http://localhost:8000/api/docs`.
+### Documentation portals
+
+Once the server is running, three documentation surfaces are available:
+
+| Path | Portal |
+|------|--------|
+| `/` | **Developer portal** — landing page with links and an endpoint overview |
+| `/api/reference` | **Scalar** — modern, interactive API reference |
+| `/api/docs` | **Swagger UI** — request explorer |
+| `/api/redoc` | **ReDoc** — clean reference documentation |
+| `/openapi.json` | The raw OpenAPI 3.1 document |
+
+## MCP Server
+
+Acmt001 ships a [Model Context Protocol](https://modelcontextprotocol.io)
+server so AI agents and assistants can generate and validate ISO 20022 account
+messages as first-class tools. Install the extra (`pip install
+"acmt001[servers]"`) and launch over stdio:
+
+```sh
+acmt001-mcp
+```
+
+It exposes six tools, all backed by the same service layer as the CLI and API:
+
+| Tool | Purpose |
+|------|---------|
+| `list_message_types` | List the 34 supported acmt message types |
+| `get_required_fields` | Required input fields for a message type |
+| `get_input_schema` | Full input JSON Schema for a message type |
+| `validate_records` | Validate flat records against a message type |
+| `validate_identifier` | Validate an IBAN, BIC, or LEI |
+| `generate_message` | Generate a validated acmt XML message |
+
+Register it with any MCP client (e.g. Claude Desktop) by adding to its config:
+
+```json
+{
+  "mcpServers": {
+    "acmt001": { "command": "acmt001-mcp" }
+  }
+}
+```
+
+## Language Server (LSP)
+
+Acmt001 ships a [pygls](https://github.com/openlawlibrary/pygls)-based Language
+Server that brings real-time help to editors when authoring **account-data JSON
+files** — diagnostics for missing required fields and invalid IBAN/BIC/LEI
+values, completion for field names and message types, and hover documentation
+from the input schema. Install the extra and launch over stdio:
+
+```sh
+acmt001-lsp
+```
+
+Point your editor's LSP client at the `acmt001-lsp` command for JSON account
+files (e.g. via a generic LSP/`efm`-style configuration).
 
 ## Validation
 
@@ -448,13 +523,16 @@ against its XSD before being saved and is ready for submission to the servicer.
 
 ```text
 acmt001/
-├── api/          # FastAPI REST endpoints + async job manager
+├── api/          # FastAPI REST endpoints, async job manager, dev portal
 ├── cli/          # Click CLI for batch processing
+├── mcp/          # Model Context Protocol server (optional `servers` extra)
+├── lsp/          # Language Server Protocol server (optional `servers` extra)
 ├── compliance/   # Charset validation, transliteration, length enforcement
 ├── core/         # Processing pipeline: data → XML
 ├── csv/ json/ db/ parquet/ data/   # Format loaders + universal loader
 ├── schemas/      # 34 JSON schemas for input validation
 ├── security/     # Path-traversal prevention
+├── services.py   # Shared service facade (CLI / API / MCP / LSP)
 ├── templates/    # 34 Jinja2 templates + real ISO 20022 XSDs
 ├── validation/   # IBAN, BIC, LEI, and schema validators
 └── xml/          # XML generation, XSD validation, file I/O

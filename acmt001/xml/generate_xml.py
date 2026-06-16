@@ -5,6 +5,7 @@ from typing import Any
 
 from jinja2 import Environment, FileSystemLoader
 
+from acmt001.constants import TEMPLATES_DIR
 from acmt001.security import validate_path
 from acmt001.xml.generate_updated_xml_file_path import (
     generate_updated_xml_file_path,
@@ -311,31 +312,18 @@ _XML_DATA_PREPARERS = {
 }
 
 
-def generate_xml_string(
+def _render_and_validate(
     data: list[dict[str, Any]],
     account_management_message_type: str,
     xml_template_path: str,
     xsd_schema_path: str,
 ) -> str:
-    """Generate ISO 20022 acmt XML content as a string."""
-    try:
-        xml_template_path = validate_path(xml_template_path)
-    except Exception as e:
-        raise ValueError(f"Invalid template path: {e}") from e
+    """Render the template for a message type and validate it against the XSD.
 
-    try:
-        xsd_schema_path = validate_path(xsd_schema_path)
-    except Exception as e:
-        raise ValueError(f"Invalid schema path: {e}") from e
-
-    if account_management_message_type not in _XML_DATA_PREPARERS:
-        raise ValueError(
-            f"Invalid XML message type: {account_management_message_type}"
-        )
-
-    if not data:
-        raise ValueError("No data to process - data list is empty")
-
+    Shared by ``generate_xml_string`` (user-supplied paths) and
+    ``generate_message`` (packaged, trusted paths). Assumes the message type and
+    data have already been checked.
+    """
     # Fill message-intrinsic coded defaults where the record omits them, so a
     # single flat record can drive every message type. Record values always win.
     defaults = _MESSAGE_DEFAULTS.get(account_management_message_type)
@@ -368,6 +356,78 @@ def generate_xml_string(
         )
 
     return xml_content
+
+
+def generate_xml_string(
+    data: list[dict[str, Any]],
+    account_management_message_type: str,
+    xml_template_path: str,
+    xsd_schema_path: str,
+) -> str:
+    """Generate ISO 20022 acmt XML content as a string."""
+    try:
+        xml_template_path = validate_path(xml_template_path)
+    except Exception as e:
+        raise ValueError(f"Invalid template path: {e}") from e
+
+    try:
+        xsd_schema_path = validate_path(xsd_schema_path)
+    except Exception as e:
+        raise ValueError(f"Invalid schema path: {e}") from e
+
+    if account_management_message_type not in _XML_DATA_PREPARERS:
+        raise ValueError(
+            f"Invalid XML message type: {account_management_message_type}"
+        )
+
+    if not data:
+        raise ValueError("No data to process - data list is empty")
+
+    return _render_and_validate(
+        data,
+        account_management_message_type,
+        xml_template_path,
+        xsd_schema_path,
+    )
+
+
+def generate_message(
+    data: list[dict[str, Any]],
+    account_management_message_type: str,
+) -> str:
+    """Generate validated acmt XML using the template + XSD bundled with the
+    package, without requiring the caller to know file paths.
+
+    Unlike ``generate_xml_string`` (which validates caller-supplied paths
+    against the working directory), this uses the trusted, package-internal
+    template and schema for the given message type — the convenient entry point
+    for the MCP server, the REST API, and other in-process callers.
+
+    Args:
+        data: One or more flat account records.
+        account_management_message_type: A supported ISO 20022 acmt type.
+
+    Returns:
+        The validated XML document as a string.
+
+    Raises:
+        ValueError: If the message type is unsupported or data is empty.
+    """
+    if account_management_message_type not in _XML_DATA_PREPARERS:
+        raise ValueError(
+            f"Invalid XML message type: {account_management_message_type}"
+        )
+
+    if not data:
+        raise ValueError("No data to process - data list is empty")
+
+    tdir = TEMPLATES_DIR / account_management_message_type
+    return _render_and_validate(
+        data,
+        account_management_message_type,
+        str(tdir / "template.xml"),
+        str(tdir / f"{account_management_message_type}.xsd"),
+    )
 
 
 def generate_xml(
