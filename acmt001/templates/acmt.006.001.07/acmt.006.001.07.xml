@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.006.001.07"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctMgmtStsRpt>
+		<MsgId>
+			<Id>ACMT-MSG-0001</Id>
+			<CreDtTm>2026-01-15T10:30:00</CreDtTm>
+		</MsgId>
+		<RltdRef>
+			<Ref>ACMT-PRC-0001</Ref>
+		</RltdRef>
+		<StsRpt>
+			<Sts>
+				<Sts>ACCP</Sts>
+			</Sts>
+			<AcctId>GB29NWBK60161331926819</AcctId>
+		</StsRpt>
+	</AcctMgmtStsRpt>
+</Document>

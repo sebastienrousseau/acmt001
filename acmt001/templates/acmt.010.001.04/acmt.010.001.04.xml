@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.010.001.04"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctReqAck>
+		<Refs>
+			<ReqTp>OPEN</ReqTp>
+			<MsgId>
+				<Id>ACMT-MSG-0001</Id>
+				<CreDtTm>2026-01-15T10:30:00</CreDtTm>
+			</MsgId>
+			<PrcId>
+				<Id>ACMT-PRC-0001</Id>
+				<CreDtTm>2026-01-15T10:30:00</CreDtTm>
+			</PrcId>
+			<Sts>RECE</Sts>
+		</Refs>
+		
+		<AcctId>
+			<Id>
+				<IBAN>GB29NWBK60161331926819</IBAN>
+			</Id>
+			<Ccy>EUR</Ccy>
+		</AcctId>
+		
+		<OrgId>
+			<LEI>5493001KJTIIGC8Y1R12</LEI>
+			<Othr><Id>ACME-ORG-001</Id></Othr>
+		</OrgId>
+		<AcctSvcrId>
+			<FinInstnId>
+				<BICFI>NWBKGB2LXXX</BICFI>
+			</FinInstnId>
+		</AcctSvcrId>
+	</AcctReqAck>
+</Document>

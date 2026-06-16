@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.005.001.06"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ReqForAcctMgmtStsRpt>
+		<MsgId>
+			<Id>{{msg_id}}</Id>
+			<CreDtTm>{{creation_date_time}}</CreDtTm>
+		</MsgId>
+		<ReqDtls>
+			<StsReqTp>ACST</StsReqTp>
+			{% if account_id or account_id_other %}
+			<ExstgAcctId>
+				<AcctId>{{account_id or account_id_other}}</AcctId>
+			</ExstgAcctId>
+			{% endif %}
+		</ReqDtls>
+	</ReqForAcctMgmtStsRpt>
+</Document>

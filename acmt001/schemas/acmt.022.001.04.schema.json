@@ -1,0 +1,201 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "acmt.022.001.04 Account Data Schema",
+  "description": "Schema for ISO 20022 acmt.022.001.04 Identification Modification Advice",
+  "version": "0.0.1",
+  "type": "object",
+  "required": [
+    "msg_id",
+    "creation_date_time",
+    "process_id",
+    "account_id",
+    "account_currency",
+    "account_name",
+    "account_type_cd",
+    "account_servicer_bic",
+    "account_owner_name",
+    "account_owner_country",
+    "org_full_legal_name",
+    "org_id_lei"
+  ],
+  "properties": {
+    "msg_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 35,
+      "description": "Message identification"
+    },
+    "creation_date_time": {
+      "type": "string",
+      "description": "Creation date and time (ISO 8601)"
+    },
+    "process_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 35,
+      "description": "Process identification"
+    },
+    "account_id": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}[0-9]{2}[A-Z0-9]+$",
+      "minLength": 15,
+      "maxLength": 34,
+      "description": "Account identifier (IBAN)"
+    },
+    "account_id_other": {
+      "type": "string",
+      "maxLength": 34,
+      "description": "Proprietary account identifier"
+    },
+    "account_currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "Account currency (ISO 4217)"
+    },
+    "account_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 70,
+      "description": "Account name"
+    },
+    "account_type_cd": {
+      "type": "string",
+      "maxLength": 4,
+      "description": "Cash account type code (e.g., CACC, CASH, SVGS)"
+    },
+    "account_servicer_bic": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$",
+      "description": "Account servicer BICFI"
+    },
+    "account_owner_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 140,
+      "description": "Account owner name"
+    },
+    "account_owner_country": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "Account owner country code"
+    },
+    "account_owner_lei": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{18}[0-9]{2}$",
+      "description": "Account owner LEI (ISO 17442)"
+    },
+    "org_full_legal_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 350,
+      "description": "Organisation full legal name"
+    },
+    "org_country_of_operation": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "Organisation country of operation"
+    },
+    "org_address_country": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "Organisation address country code"
+    },
+    "org_address_town": {
+      "type": "string",
+      "maxLength": 140,
+      "description": "Organisation address town name"
+    },
+    "org_id_lei": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{18}[0-9]{2}$",
+      "description": "Organisation LEI (ISO 17442)"
+    },
+    "org_id_other": {
+      "type": "string",
+      "maxLength": 35,
+      "description": "Proprietary organisation identifier"
+    },
+    "status_cd": {
+      "type": "string",
+      "maxLength": 4,
+      "description": "Status code"
+    },
+    "reason_cd": {
+      "type": "string",
+      "maxLength": 35,
+      "description": "Reason code"
+    },
+    "additional_info": {
+      "type": "string",
+      "maxLength": 350,
+      "description": "Additional information"
+    },
+    "assigner_name": {
+      "type": "string",
+      "maxLength": 140,
+      "description": "Identification assigner party name"
+    },
+    "assignee_name": {
+      "type": "string",
+      "maxLength": 140,
+      "description": "Identification assignee party name"
+    },
+    "verification_id": {
+      "type": "string",
+      "maxLength": 35,
+      "description": "Verification identification"
+    },
+    "verification_indicator": {
+      "type": "string",
+      "enum": [
+        "true",
+        "false"
+      ],
+      "description": "Verification result indicator"
+    },
+    "original_id": {
+      "type": "string",
+      "maxLength": 35,
+      "description": "Original identification reference"
+    },
+    "party_name": {
+      "type": "string",
+      "maxLength": 140,
+      "description": "Party name"
+    },
+    "request_to_be_completed_id": {
+      "type": "string",
+      "maxLength": 35,
+      "description": "Identifier of the request to be completed"
+    },
+    "request_reason": {
+      "type": "string",
+      "maxLength": 35,
+      "description": "Reason the request requires additional information"
+    },
+    "mandate_id": {
+      "type": "string",
+      "maxLength": 35,
+      "description": "Operation mandate identification"
+    },
+    "mandate_channel": {
+      "type": "string",
+      "maxLength": 35,
+      "description": "Mandate application/communication channel"
+    },
+    "required_signature_number": {
+      "type": "string",
+      "pattern": "^[+]?[0-9]{1,15}$",
+      "description": "Required number of signatures"
+    },
+    "signature_order_indicator": {
+      "type": "string",
+      "enum": [
+        "true",
+        "false"
+      ],
+      "description": "Whether the signature order is significant"
+    }
+  },
+  "additionalProperties": true
+}

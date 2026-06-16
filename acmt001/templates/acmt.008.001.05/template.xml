@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.008.001.05"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctOpngAmdmntReq>
+		<Refs>
+			<MsgId>
+				<Id>{{msg_id}}</Id>
+				<CreDtTm>{{creation_date_time}}</CreDtTm>
+			</MsgId>
+			<PrcId>
+				<Id>{{process_id}}</Id>
+				<CreDtTm>{{creation_date_time}}</CreDtTm>
+			</PrcId>
+		</Refs>
+		<Acct>
+			{% if account_id or account_id_other %}
+			<Id>
+				{% if account_id %}<IBAN>{{account_id}}</IBAN>{% else %}<Othr><Id>{{account_id_other}}</Id></Othr>{% endif %}
+			</Id>
+			{% endif %}
+			{% if account_name %}<Nm>{{account_name}}</Nm>{% endif %}
+			<Ccy>{{account_currency}}</Ccy>
+		</Acct>
+		<AcctSvcrId>
+			<FinInstnId>
+				{% if account_servicer_bic %}<BICFI>{{account_servicer_bic}}</BICFI>{% endif %}
+			</FinInstnId>
+		</AcctSvcrId>
+		<Org>
+			<FullLglNm>{{org_full_legal_name}}</FullLglNm>
+			<CtryOfOpr>{{org_country_of_operation}}</CtryOfOpr>
+			<LglAdr>
+				{% if org_address_town %}<TwnNm>{{org_address_town}}</TwnNm>{% endif %}
+				{% if org_address_country %}<Ctry>{{org_address_country}}</Ctry>{% endif %}
+			</LglAdr>
+			<OrgId>
+				{% if org_id_lei %}<LEI>{{org_id_lei}}</LEI>{% endif %}
+				{% if org_id_other %}<Othr><Id>{{org_id_other}}</Id></Othr>{% endif %}
+			</OrgId>
+		</Org>
+	</AcctOpngAmdmntReq>
+</Document>

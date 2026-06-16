@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.024.001.04"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<IdVrfctnRpt>
+		<Assgnmt>
+			<MsgId>ACMT-MSG-0001</MsgId>
+			<CreDtTm>2026-01-15T10:30:00</CreDtTm>
+			<Assgnr>
+				<Pty>
+					<Nm>Acme Embedded Finance Ltd</Nm>
+				</Pty>
+			</Assgnr>
+			<Assgne>
+				<Pty>
+					<Nm>National Westminster Bank</Nm>
+				</Pty>
+			</Assgne>
+		</Assgnmt>
+		
+		<Rpt>
+			<OrgnlId>VRFY-0001</OrgnlId>
+			<Vrfctn>true</Vrfctn>
+			<UpdtdPtyAndAcctId>
+				<Pty>
+					<Nm>Acme Embedded Finance Ltd</Nm>
+				</Pty>
+			</UpdtdPtyAndAcctId>
+		</Rpt>
+		
+	</IdVrfctnRpt>
+</Document>

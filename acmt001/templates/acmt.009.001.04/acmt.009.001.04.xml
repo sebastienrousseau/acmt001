@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.009.001.04"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctOpngAddtlInfReq>
+		<Refs>
+			<MsgId>
+				<Id>ACMT-MSG-0001</Id>
+				<CreDtTm>2026-01-15T10:30:00</CreDtTm>
+			</MsgId>
+			<ReqToBeCmpltdId>
+				<Id>ACMT-REQ-0007</Id>
+				<CreDtTm>2026-01-15T10:30:00</CreDtTm>
+			</ReqToBeCmpltdId>
+			<PrcId>
+				<Id>ACMT-PRC-0001</Id>
+				<CreDtTm>2026-01-15T10:30:00</CreDtTm>
+			</PrcId>
+			<ReqRsn>KYC documentation outstanding</ReqRsn>
+		</Refs>
+		<OrgId>
+			<LEI>5493001KJTIIGC8Y1R12</LEI>
+			<Othr><Id>ACME-ORG-001</Id></Othr>
+		</OrgId>
+		<Acct>
+			
+			<Id>
+				<IBAN>GB29NWBK60161331926819</IBAN>
+			</Id>
+			
+			<Nm>Treasury Operating Account</Nm>
+			<Ccy>EUR</Ccy>
+		</Acct>
+		<AcctSvcrId>
+			<FinInstnId>
+				<BICFI>NWBKGB2LXXX</BICFI>
+			</FinInstnId>
+		</AcctSvcrId>
+	</AcctOpngAddtlInfReq>
+</Document>

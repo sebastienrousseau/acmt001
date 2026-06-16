@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.003.001.08"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctModInstr>
+		<MsgId>
+			<Id>ACMT-MSG-0001</Id>
+			<CreDtTm>2026-01-15T10:30:00</CreDtTm>
+		</MsgId>
+		<InvstmtAcctSelctn>
+			<AcctId>VRTL-0001-0001</AcctId>
+		</InvstmtAcctSelctn>
+	</AcctModInstr>
+</Document>

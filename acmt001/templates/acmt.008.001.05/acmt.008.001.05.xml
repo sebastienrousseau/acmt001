@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.008.001.05"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctOpngAmdmntReq>
+		<Refs>
+			<MsgId>
+				<Id>ACMT-MSG-0001</Id>
+				<CreDtTm>2026-01-15T10:30:00</CreDtTm>
+			</MsgId>
+			<PrcId>
+				<Id>ACMT-PRC-0001</Id>
+				<CreDtTm>2026-01-15T10:30:00</CreDtTm>
+			</PrcId>
+		</Refs>
+		<Acct>
+			
+			<Id>
+				<IBAN>GB29NWBK60161331926819</IBAN>
+			</Id>
+			
+			<Nm>Treasury Operating Account</Nm>
+			<Ccy>EUR</Ccy>
+		</Acct>
+		<AcctSvcrId>
+			<FinInstnId>
+				<BICFI>NWBKGB2LXXX</BICFI>
+			</FinInstnId>
+		</AcctSvcrId>
+		<Org>
+			<FullLglNm>Acme Embedded Finance Limited</FullLglNm>
+			<CtryOfOpr>GB</CtryOfOpr>
+			<LglAdr>
+				<TwnNm>London</TwnNm>
+				<Ctry>GB</Ctry>
+			</LglAdr>
+			<OrgId>
+				<LEI>5493001KJTIIGC8Y1R12</LEI>
+				<Othr><Id>ACME-ORG-001</Id></Othr>
+			</OrgId>
+		</Org>
+	</AcctOpngAmdmntReq>
+</Document>

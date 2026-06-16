@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.012.001.04"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctAddtlInfReq>
+		<Refs>
+			<MsgId>
+				<Id>{{msg_id}}</Id>
+				<CreDtTm>{{creation_date_time}}</CreDtTm>
+			</MsgId>
+			<ReqToBeCmpltdId>
+				<Id>{{request_to_be_completed_id}}</Id>
+				<CreDtTm>{{creation_date_time}}</CreDtTm>
+			</ReqToBeCmpltdId>
+			<PrcId>
+				<Id>{{process_id}}</Id>
+				<CreDtTm>{{creation_date_time}}</CreDtTm>
+			</PrcId>
+			<ReqRsn>{{request_reason}}</ReqRsn>
+		</Refs>
+		<OrgId>
+			{% if org_id_lei %}<LEI>{{org_id_lei}}</LEI>{% endif %}
+			{% if org_id_other %}<Othr><Id>{{org_id_other}}</Id></Othr>{% endif %}
+		</OrgId>
+		<AcctSvcrId>
+			<FinInstnId>
+				{% if account_servicer_bic %}<BICFI>{{account_servicer_bic}}</BICFI>{% endif %}
+			</FinInstnId>
+		</AcctSvcrId>
+		<AcctId>
+			<Id>
+				{% if account_id %}<IBAN>{{account_id}}</IBAN>{% else %}<Othr><Id>{{account_id_other}}</Id></Othr>{% endif %}
+			</Id>
+			<Ccy>{{account_currency}}</Ccy>
+		</AcctId>
+	</AcctAddtlInfReq>
+</Document>
