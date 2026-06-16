@@ -20,6 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || github.ref_name }}
+      # Bridge the secret to the env context so steps can gate on its presence
+      # (the secrets context is not available in step-level `if:` conditions).
+      PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
@@ -44,10 +47,10 @@ jobs:
       - name: Publish to PyPI
         # Only attempt a PyPI upload when a token is configured; otherwise skip
         # (e.g. pre-release review tags) instead of failing the workflow.
-        if: ${{ secrets.PYPI_API_TOKEN != '' }}
+        if: ${{ env.PYPI_API_TOKEN != '' }}
         env:
           TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+          TWINE_PASSWORD: ${{ env.PYPI_API_TOKEN }}
         run: poetry run twine upload dist/*
 
       - name: Publish release artifacts to GitHub
