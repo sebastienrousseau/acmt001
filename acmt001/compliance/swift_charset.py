@@ -26,7 +26,7 @@ Example:
 """
 
 import unicodedata
-from typing import Any, Optional
+from typing import Any
 
 # SWIFT X Character Set (ISO 15022 / MT standard)
 # Characters allowed in SWIFT FIN messages
@@ -162,7 +162,7 @@ class ComplianceViolation:
         field: str,
         violation_type: str,
         original_value: str,
-        corrected_value: Optional[str] = None,
+        corrected_value: str | None = None,
         message: str = "",
     ) -> None:
         self.field = field
@@ -262,7 +262,7 @@ def cleanse_string(value: str) -> str:
 
 def enforce_field_lengths(
     row: dict[str, Any],
-    max_lengths: Optional[dict[str, int]] = None,
+    max_lengths: dict[str, int] | None = None,
 ) -> tuple[dict[str, Any], list[ComplianceViolation]]:
     """Truncate fields that exceed ISO 20022 maximum lengths.
 

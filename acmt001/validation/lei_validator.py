@@ -37,7 +37,6 @@ Standards:
     - ISO 7064 - Check digit mod-97-10 algorithm
 """
 
-from typing import Optional
 
 from acmt001.exceptions import InvalidLEIError
 
@@ -146,7 +145,7 @@ def validate_lei_checksum(lei: str) -> tuple[bool, str]:
 
 
 def validate_lei(
-    lei: str, field: Optional[str] = None, strict: bool = True
+    lei: str, field: str | None = None, strict: bool = True
 ) -> tuple[bool, str]:
     """Validate LEI format and checksum.
 
@@ -202,7 +201,7 @@ def validate_lei(
     return True, ""
 
 
-def validate_lei_safe(lei: str, field: Optional[str] = None) -> bool:
+def validate_lei_safe(lei: str, field: str | None = None) -> bool:
     """Validate LEI and return True/False (never raises exceptions).
 
     This is a convenience wrapper for validate_lei with strict=False.

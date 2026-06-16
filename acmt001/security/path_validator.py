@@ -5,7 +5,6 @@ import re
 import sys
 import tempfile
 from pathlib import Path
-from typing import Union
 
 
 class PathValidationError(ValueError):
@@ -50,8 +49,8 @@ def _is_allowed_directory(resolved_path: Path) -> bool:
 
 
 def _resolve_within_allowed_bases(
-    untrusted_path: Union[str, Path],
-    base_dir: Union[str, Path, None] = None,
+    untrusted_path: str | Path,
+    base_dir: str | Path | None = None,
 ) -> str:
     if not untrusted_path:
         raise PathValidationError("Path cannot be empty")
@@ -81,9 +80,9 @@ def _resolve_within_allowed_bases(
 
 
 def validate_path(
-    untrusted_path: Union[str, Path],
+    untrusted_path: str | Path,
     must_exist: bool = False,
-    base_dir: Union[str, Path, None] = None,
+    base_dir: str | Path | None = None,
 ) -> str:
     safe_path = _resolve_within_allowed_bases(untrusted_path, base_dir)
     if must_exist and not os.path.exists(safe_path):

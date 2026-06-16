@@ -75,7 +75,7 @@ flowchart LR
 
 ## Install
 
-**Acmt001** runs on macOS, Linux, and Windows and requires **Python 3.9.2+** and
+**Acmt001** runs on macOS, Linux, and Windows and requires **Python 3.10+** and
 **pip**. All runtime dependencies install automatically.
 
 ```sh
@@ -172,7 +172,7 @@ Exit code `0` = valid, `1` = validation failed.
   protection on all file I/O.
 - **Type-safe** — full type hints, checked with `mypy --strict`.
 - **Well tested** — **987 tests at 99.88% branch coverage** across Python
-  3.9–3.12; `ruff` + `black` clean.
+  3.10–3.12; `ruff` + `black` clean.
 - **Four interfaces** — a Click CLI, a FastAPI REST API (with an interactive
   developer portal), an MCP server (for AI agents), and an LSP server (for
   editors) — all backed by one shared service layer.
@@ -574,7 +574,7 @@ packages/                 # companion packages in the acmt001 suite
 ```
 
 The project is a **suite of independently installable packages**: the core
-`acmt001` (Python 3.9+), plus `acmt001-mcp` and `acmt001-lsp` (Python 3.10+),
+`acmt001`, `acmt001-mcp`, and `acmt001-lsp` (all Python 3.10+),
 all sharing the `acmt001.services` layer.
 
 ## Development

@@ -36,7 +36,6 @@ Standards:
     - ISO 7064 - Check digit mod-97-10 algorithm
 """
 
-from typing import Optional
 
 from acmt001.exceptions import InvalidIBANError
 
@@ -241,7 +240,7 @@ def validate_iban_checksum(iban: str) -> tuple[bool, str]:
 
 
 def validate_iban(
-    iban: str, field: Optional[str] = None, strict: bool = True
+    iban: str, field: str | None = None, strict: bool = True
 ) -> tuple[bool, str]:
     """Validate IBAN format and checksum.
 
@@ -297,7 +296,7 @@ def validate_iban(
     return True, ""
 
 
-def validate_iban_safe(iban: str, field: Optional[str] = None) -> bool:
+def validate_iban_safe(iban: str, field: str | None = None) -> bool:
     """Validate IBAN and return True/False (never raises exceptions).
 
     This is a convenience wrapper for validate_iban with strict=False.

@@ -29,7 +29,7 @@ Example:
 """
 
 import json
-from typing import Any, Optional
+from typing import Any
 
 from acmt001.constants import message_names, valid_xml_types
 from acmt001.validation.bic_validator import validate_bic_safe
@@ -171,7 +171,7 @@ def validate_identifier(kind: str, value: str) -> dict[str, Any]:
     return {"kind": key, "value": value, "valid": bool(validator(value))}
 
 
-def load_openapi(app: Optional[Any] = None) -> str:
+def load_openapi(app: Any | None = None) -> str:
     """Return the REST API OpenAPI document as a JSON string.
 
     Args:

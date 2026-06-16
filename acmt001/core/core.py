@@ -18,7 +18,7 @@ import logging
 import os
 import sys
 import time
-from typing import Any, Union
+from typing import Any
 
 import acmt001.xml.generate_xml as xml_generate
 import acmt001.xml.register_namespaces as xml_namespaces
@@ -127,7 +127,7 @@ def _validate_inputs(
 
 
 def _determine_data_source_type(
-    data_file_path: Union[str, list[dict[str, Any]], dict[str, Any]],
+    data_file_path: str | list[dict[str, Any]] | dict[str, Any],
 ) -> str:
     """Determine the type of the data source."""
     if isinstance(data_file_path, list):
@@ -148,7 +148,7 @@ def _determine_data_source_type(
 
 
 def _load_data(
-    data_file_path: Union[str, list[dict[str, Any]], dict[str, Any]],
+    data_file_path: str | list[dict[str, Any]] | dict[str, Any],
     start_time: float,
 ) -> list[dict[str, Any]]:
     """Load and validate account data from files or Python objects."""
@@ -235,7 +235,7 @@ def process_files(
     xml_message_type: str,
     xml_template_file_path: str,
     xsd_schema_file_path: str,
-    data_file_path: Union[str, list[dict[str, Any]], dict[str, Any]],
+    data_file_path: str | list[dict[str, Any]] | dict[str, Any],
 ) -> None:
     """
     Generate an ISO 20022 acmt Account Management message from various data

@@ -37,7 +37,6 @@ Standards:
     - ISO 9362:2022 - Banking -- Banking telecommunication messages -- Business identifier code (BIC)
 """
 
-from typing import Optional
 
 from acmt001.exceptions import InvalidBICError
 
@@ -219,7 +218,7 @@ def validate_bic_format(
 
 
 def validate_bic(
-    bic: str, field: Optional[str] = None, strict: bool = True
+    bic: str, field: str | None = None, strict: bool = True
 ) -> tuple[bool, str]:
     """Validate BIC/SWIFT code format.
 
@@ -263,7 +262,7 @@ def validate_bic(
     return True, ""
 
 
-def validate_bic_safe(bic: str, field: Optional[str] = None) -> bool:
+def validate_bic_safe(bic: str, field: str | None = None) -> bool:
     """Validate BIC and return True/False (never raises exceptions).
 
     This is a convenience wrapper for validate_bic with strict=False.

@@ -18,7 +18,7 @@
 # pylint: disable=too-few-public-methods
 
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field, ValidationInfo, field_validator
 
@@ -83,7 +83,7 @@ class ValidationRequest(BaseModel):  # pylint: disable=too-few-public-methods
         default=MessageType.ACMT_007_05,
         description="ISO 20022 acmt.007 message type",
     )
-    table_name: Optional[str] = Field(
+    table_name: str | None = Field(
         default=None,
         description="Table name for SQLite sources",
     )
@@ -103,7 +103,7 @@ class GenerateXMLRequest(BaseModel):
         default=MessageType.ACMT_007_05,
         description="ISO 20022 acmt.007 message type",
     )
-    output_dir: Optional[str] = Field(
+    output_dir: str | None = Field(
         default=None,
         description="Output directory for generated XML",
     )
@@ -111,7 +111,7 @@ class GenerateXMLRequest(BaseModel):
         default=False,
         description="Only validate, don't generate XML",
     )
-    table_name: Optional[str] = Field(
+    table_name: str | None = Field(
         default=None,
         description="Table name for SQLite sources",
     )
@@ -127,7 +127,7 @@ class ValidationError(BaseModel):
 
     field: str = Field(..., description="Field name or JSON path")
     message: str = Field(..., description="Error message")
-    value: Optional[Any] = Field(None, description="The invalid value")
+    value: Any | None = Field(None, description="The invalid value")
 
 
 class ValidationResponse(BaseModel):
@@ -169,7 +169,7 @@ class GenerateXMLResponse(BaseModel):
 
     success: bool = Field(..., description="Whether generation succeeded")
     message: str = Field(..., description="Result message")
-    file_path: Optional[str] = Field(None, description="Path to generated XML")
+    file_path: str | None = Field(None, description="Path to generated XML")
     validation_errors: list[ValidationError] = Field(
         default_factory=list,
         description="Validation errors if validation failed",
@@ -185,10 +185,10 @@ class JobStatusResponse(BaseModel):
         description="Current job status (pending, processing, success, failed, cancelled)",
     )
     message: str = Field(..., description="Status message")
-    result: Optional[GenerateXMLResponse] = Field(
+    result: GenerateXMLResponse | None = Field(
         None, description="Result when status is success"
     )
-    error: Optional[str] = Field(None, description="Error message if failed")
+    error: str | None = Field(None, description="Error message if failed")
     progress_percent: int = Field(
         default=0, description="Progress percentage (0-100)"
     )
