@@ -1,0 +1,16 @@
+[
+  {
+    "msg_id": "ACMT-MSG-0001",
+    "creation_date_time": "2026-01-15T10:30:00",
+    "process_id": "ACMT-PRC-0001",
+    "account_id": "GB29NWBK60161331926819",
+    "account_currency": "EUR",
+    "account_name": "Treasury Operating Account",
+    "account_type_cd": "CACC",
+    "account_servicer_bic": "NWBKGB2LXXX",
+    "account_owner_name": "Acme Embedded Finance Ltd",
+    "account_owner_country": "GB",
+    "org_full_legal_name": "Acme Embedded Finance Limited",
+    "org_id_lei": "5493001KJTIIGC8Y1R12"
+  }
+]

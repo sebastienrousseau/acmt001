@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.002.001.08"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctDtlsConf>
+		<MsgId>
+			<Id>{{msg_id}}</Id>
+			<CreDtTm>{{creation_date_time}}</CreDtTm>
+		</MsgId>
+		<ConfDtls>
+			<ConfTp>
+				<Cd>ACCM</Cd>
+			</ConfTp>
+			{% if process_id %}<AcctApplId>{{process_id}}</AcctApplId>{% endif %}
+		</ConfDtls>
+	</AcctDtlsConf>
+</Document>

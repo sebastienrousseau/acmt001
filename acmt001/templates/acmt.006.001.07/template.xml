@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.006.001.07"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctMgmtStsRpt>
+		<MsgId>
+			<Id>{{msg_id}}</Id>
+			<CreDtTm>{{creation_date_time}}</CreDtTm>
+		</MsgId>
+		<RltdRef>
+			<Ref>{{process_id}}</Ref>
+		</RltdRef>
+		<StsRpt>
+			<Sts>
+				<Sts>ACCP</Sts>
+			</Sts>
+			{% if account_id or account_id_other %}<AcctId>{{account_id or account_id_other}}</AcctId>{% endif %}
+		</StsRpt>
+	</AcctMgmtStsRpt>
+</Document>

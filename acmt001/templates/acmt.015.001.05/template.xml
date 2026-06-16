@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.015.001.05"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctExcldMndtMntncReq>
+		<Refs>
+			<MsgId>
+				<Id>{{msg_id}}</Id>
+				<CreDtTm>{{creation_date_time}}</CreDtTm>
+			</MsgId>
+			<PrcId>
+				<Id>{{process_id}}</Id>
+				<CreDtTm>{{creation_date_time}}</CreDtTm>
+			</PrcId>
+		</Refs>
+		<Acct>
+			<Id>
+				{% if account_id %}<IBAN>{{account_id}}</IBAN>{% else %}<Othr><Id>{{account_id_other}}</Id></Othr>{% endif %}
+			</Id>
+			<Ccy>{{account_currency}}</Ccy>
+		</Acct>
+		<AcctSvcrId>
+			<FinInstnId>
+				{% if account_servicer_bic %}<BICFI>{{account_servicer_bic}}</BICFI>{% endif %}
+			</FinInstnId>
+		</AcctSvcrId>
+	</AcctExcldMndtMntncReq>
+</Document>

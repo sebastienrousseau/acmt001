@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.024.001.04"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<IdVrfctnRpt>
+		<Assgnmt>
+			<MsgId>{{msg_id}}</MsgId>
+			<CreDtTm>{{creation_date_time}}</CreDtTm>
+			<Assgnr>
+				<Pty>
+					<Nm>{{assigner_name}}</Nm>
+				</Pty>
+			</Assgnr>
+			<Assgne>
+				<Pty>
+					<Nm>{{assignee_name}}</Nm>
+				</Pty>
+			</Assgne>
+		</Assgnmt>
+		{% for r in records %}
+		<Rpt>
+			<OrgnlId>{{r.original_id}}</OrgnlId>
+			<Vrfctn>{{r.verification_indicator}}</Vrfctn>
+			<UpdtdPtyAndAcctId>
+				<Pty>
+					<Nm>{{r.party_name}}</Nm>
+				</Pty>
+			</UpdtdPtyAndAcctId>
+		</Rpt>
+		{% endfor %}
+	</IdVrfctnRpt>
+</Document>

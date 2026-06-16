@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.018.001.05"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctMndtMntncAmdmntReq>
+		<Refs>
+			<MsgId>
+				<Id>{{msg_id}}</Id>
+				<CreDtTm>{{creation_date_time}}</CreDtTm>
+			</MsgId>
+			<PrcId>
+				<Id>{{process_id}}</Id>
+				<CreDtTm>{{creation_date_time}}</CreDtTm>
+			</PrcId>
+		</Refs>
+		<AcctId>
+			<Id>
+				{% if account_id %}<IBAN>{{account_id}}</IBAN>{% else %}<Othr><Id>{{account_id_other}}</Id></Othr>{% endif %}
+			</Id>
+			<Ccy>{{account_currency}}</Ccy>
+		</AcctId>
+		<AcctSvcrId>
+			<FinInstnId>
+				{% if account_servicer_bic %}<BICFI>{{account_servicer_bic}}</BICFI>{% endif %}
+			</FinInstnId>
+		</AcctSvcrId>
+		<OrgId>
+			{% if org_id_lei %}<LEI>{{org_id_lei}}</LEI>{% endif %}
+			{% if org_id_other %}<Othr><Id>{{org_id_other}}</Id></Othr>{% endif %}
+		</OrgId>
+		<Mndt>
+			<Id>{{mandate_id}}</Id>
+			<AplblChanl>
+				<Prtry>{{mandate_channel}}</Prtry>
+			</AplblChanl>
+			<ReqrdSgntrNb>{{required_signature_number}}</ReqrdSgntrNb>
+			<SgntrOrdrInd>{{signature_order_indicator}}</SgntrOrdrInd>
+			<BkOpr/>
+		</Mndt>
+	</AcctMndtMntncAmdmntReq>
+</Document>

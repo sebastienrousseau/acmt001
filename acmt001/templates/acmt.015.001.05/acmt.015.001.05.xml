@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.015.001.05"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctExcldMndtMntncReq>
+		<Refs>
+			<MsgId>
+				<Id>ACMT-MSG-0001</Id>
+				<CreDtTm>2026-01-15T10:30:00</CreDtTm>
+			</MsgId>
+			<PrcId>
+				<Id>ACMT-PRC-0001</Id>
+				<CreDtTm>2026-01-15T10:30:00</CreDtTm>
+			</PrcId>
+		</Refs>
+		<Acct>
+			<Id>
+				<IBAN>GB29NWBK60161331926819</IBAN>
+			</Id>
+			<Ccy>EUR</Ccy>
+		</Acct>
+		<AcctSvcrId>
+			<FinInstnId>
+				<BICFI>NWBKGB2LXXX</BICFI>
+			</FinInstnId>
+		</AcctSvcrId>
+	</AcctExcldMndtMntncReq>
+</Document>

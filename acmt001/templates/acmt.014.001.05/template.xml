@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.014.001.05"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctRpt>
+		<Refs>
+			<ReqTp>VIEW</ReqTp>
+			<MsgId>
+				<Id>{{msg_id}}</Id>
+				<CreDtTm>{{creation_date_time}}</CreDtTm>
+			</MsgId>
+			<PrcId>
+				<Id>{{process_id}}</Id>
+				<CreDtTm>{{creation_date_time}}</CreDtTm>
+			</PrcId>
+			{% if status_cd %}<Sts>{{status_cd}}</Sts>{% endif %}
+		</Refs>
+		<AcctSvcrId>
+			<FinInstnId>
+				{% if account_servicer_bic %}<BICFI>{{account_servicer_bic}}</BICFI>{% endif %}
+			</FinInstnId>
+		</AcctSvcrId>
+		<Org>
+			<FullLglNm>{{org_full_legal_name}}</FullLglNm>
+			<CtryOfOpr>{{org_country_of_operation}}</CtryOfOpr>
+			<LglAdr>
+				{% if org_address_town %}<TwnNm>{{org_address_town}}</TwnNm>{% endif %}
+				{% if org_address_country %}<Ctry>{{org_address_country}}</Ctry>{% endif %}
+			</LglAdr>
+			<OrgId>
+				{% if org_id_lei %}<LEI>{{org_id_lei}}</LEI>{% endif %}
+				{% if org_id_other %}<Othr><Id>{{org_id_other}}</Id></Othr>{% endif %}
+			</OrgId>
+		</Org>
+		{% for r in records %}
+		<Rpt>
+			<Acct>
+				<Id>
+					{% if r.account_id %}<IBAN>{{r.account_id}}</IBAN>{% else %}<Othr><Id>{{r.account_id_other}}</Id></Othr>{% endif %}
+				</Id>
+				{% if r.account_name %}<Nm>{{r.account_name}}</Nm>{% endif %}
+				<Ccy>{{r.account_currency}}</Ccy>
+			</Acct>
+		</Rpt>
+		{% endfor %}
+	</AcctRpt>
+</Document>

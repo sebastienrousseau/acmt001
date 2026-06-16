@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.001.001.08" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctOpngInstr>
+		<MsgId>
+			<Id>{{msg_id}}</Id>
+			<CreDtTm>{{creation_date_time}}</CreDtTm>
+		</MsgId>
+		<InstrDtls>
+			<OpngTp>
+				<Cd>NEWA</Cd>
+			</OpngTp>
+			{% if account_id_other %}<ClntRef>{{account_id_other}}</ClntRef>{% endif %}
+		</InstrDtls>
+		<InvstmtAcct>
+			{% if account_id %}<Id>{{account_id}}</Id>{% endif %}
+			{% if account_name %}<Nm>{{account_name}}</Nm>{% endif %}
+			<OwnrshTp>
+				<Cd>CORP</Cd>
+			</OwnrshTp>
+			{% if account_currency %}<RefCcy>{{account_currency}}</RefCcy>{% endif %}
+		</InvstmtAcct>
+		<AcctPties>
+			<PrncplAcctPty>
+				<PmryOwnr>
+					<Pty>
+						<Org>
+							{% if org_full_legal_name %}<Nm>{{org_full_legal_name}}</Nm>{% endif %}
+							{% if org_id_lei %}<LglNttyIdr>{{org_id_lei}}</LglNttyIdr>{% endif %}
+							{% if org_address_country %}<RegnCtry>{{org_address_country}}</RegnCtry>{% endif %}
+						</Org>
+					</Pty>
+				</PmryOwnr>
+			</PrncplAcctPty>
+		</AcctPties>
+	</AcctOpngInstr>
+</Document>

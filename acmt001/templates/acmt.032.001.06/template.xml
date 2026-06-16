@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.032.001.06"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctSwtchBalTrfAck>
+		<MsgId>
+			<Id>{{msg_id}}</Id>
+			<CreDtTm>{{creation_date_time}}</CreDtTm>
+		</MsgId>
+		<AcctSwtchDtls>
+			<UnqRefNb>{{switch_reference}}</UnqRefNb>
+			<RtgUnqRefNb>{{routing_id}}</RtgUnqRefNb>
+			{% if switch_received_date_time %}<SwtchRcvdDtTm>{{switch_received_date_time}}</SwtchRcvdDtTm>{% endif %}
+			{% if switch_date %}<SwtchDt>{{switch_date}}</SwtchDt>{% endif %}
+			<SwtchTp>{{switch_type_cd}}</SwtchTp>
+			{% if switch_status_cd %}<SwtchSts>{{switch_status_cd}}</SwtchSts>{% endif %}
+			{% if balance_transfer_window_cd %}<BalTrfWndw>{{balance_transfer_window_cd}}</BalTrfWndw>{% endif %}
+		</AcctSwtchDtls>
+		<OdAcct>
+			<Id>
+				<IBAN>{{old_account_id}}</IBAN>
+			</Id>
+			{% if account_currency %}<Ccy>{{account_currency}}</Ccy>{% endif %}
+			{% if account_name %}<Nm>{{account_name}}</Nm>{% endif %}
+		</OdAcct>
+		<OdAcctBal>
+			<Amt Ccy="{{account_currency}}">{{old_account_balance}}</Amt>
+			<CdtDbt>{{old_account_balance_cd}}</CdtDbt>
+		</OdAcctBal>
+	</AcctSwtchBalTrfAck>
+</Document>
