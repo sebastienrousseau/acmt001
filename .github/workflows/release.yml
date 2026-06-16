@@ -42,6 +42,9 @@ jobs:
         run: poetry run twine check dist/*
 
       - name: Publish to PyPI
+        # Only attempt a PyPI upload when a token is configured; otherwise skip
+        # (e.g. pre-release review tags) instead of failing the workflow.
+        if: ${{ secrets.PYPI_API_TOKEN != '' }}
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}

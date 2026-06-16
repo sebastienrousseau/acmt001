@@ -22,9 +22,7 @@ class TestJobResult:
         assert result.progress_percent == 0
 
     def test_to_dict(self):
-        result = JobResult(
-            "test-id", JobStatus.SUCCESS, result={"key": "val"}
-        )
+        result = JobResult("test-id", JobStatus.SUCCESS, result={"key": "val"})
         d = result.to_dict()
         assert d["job_id"] == "test-id"
         assert d["status"] == "success"
@@ -63,7 +61,9 @@ class TestJobManager:
         mgr = JobManager()
         job_id = mgr.create_job()
         mgr.update_status(
-            job_id, JobStatus.SUCCESS, progress=100,
+            job_id,
+            JobStatus.SUCCESS,
+            progress=100,
             result={"file": "out.xml"},
         )
         assert mgr.get_job(job_id).result == {"file": "out.xml"}

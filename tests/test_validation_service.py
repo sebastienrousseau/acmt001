@@ -183,7 +183,9 @@ class TestValidateDataContent:
         result = service.validate_data_content("/nonexistent/file.csv")
         assert not result.is_valid
 
-    def test_invalid_content_missing_required(self, service, tmp_path, monkeypatch):
+    def test_invalid_content_missing_required(
+        self, service, tmp_path, monkeypatch
+    ):
         """A CSV missing required columns fails content validation."""
         monkeypatch.chdir(tmp_path)
         path = tmp_path / "bad.csv"

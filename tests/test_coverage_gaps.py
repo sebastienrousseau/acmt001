@@ -242,9 +242,7 @@ class TestParquetGaps:
             def iter_batches(self, *_a, **_k):
                 yield _EmptyBatch()
 
-        monkeypatch.setattr(
-            parquet_mod.pq, "ParquetFile", _FakeParquetFile
-        )
+        monkeypatch.setattr(parquet_mod.pq, "ParquetFile", _FakeParquetFile)
         chunks = list(load_parquet_data_streaming(str(target)))
         assert chunks == []
 

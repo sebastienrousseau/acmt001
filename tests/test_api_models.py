@@ -97,9 +97,7 @@ class TestGenerateXMLRequest:
 
 class TestValidationError:
     def test_create(self):
-        err = ValidationError(
-            field="$.account_id", message="bad", value="X"
-        )
+        err = ValidationError(field="$.account_id", message="bad", value="X")
         assert err.field == "$.account_id"
         assert err.message == "bad"
         assert err.value == "X"
@@ -115,9 +113,7 @@ class TestValidationResponse:
         assert resp.invalid_rows == 3
 
     def test_invalid_rows_default(self):
-        resp = ValidationResponse(
-            is_valid=False, total_rows=10, valid_rows=7
-        )
+        resp = ValidationResponse(is_valid=False, total_rows=10, valid_rows=7)
         assert resp.invalid_rows == 0
 
     def test_all_valid(self):

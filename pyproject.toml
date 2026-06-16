@@ -172,3 +172,12 @@ disable_error_code = ["arg-type", "return-value", "attr-defined", "assignment"]
 [[tool.mypy.overrides]]
 module = "xmlschema.*"
 ignore_missing_imports = true
+
+# anyio (pulled in transitively via FastAPI) uses match statements, which the
+# configured python_version (3.9) cannot parse. Skip following its source so
+# type checking of first-party code is unaffected; FastAPI itself is still
+# followed so its decorators stay typed.
+[[tool.mypy.overrides]]
+module = ["anyio", "anyio.*"]
+ignore_missing_imports = true
+follow_imports = "skip"

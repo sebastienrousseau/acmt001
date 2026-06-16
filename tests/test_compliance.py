@@ -195,9 +195,7 @@ class TestCleanseData:
         assert len(result[0]["msg_id"]) == 35
 
     def test_both_charset_and_length(self):
-        result = cleanse_data(
-            [self._row(account_owner_name="Ä" * 200)]
-        )
+        result = cleanse_data([self._row(account_owner_name="Ä" * 200)])
         assert len(result[0]["account_owner_name"]) <= 140
         assert validate_swift_charset(result[0]["account_owner_name"]) == []
 

@@ -247,8 +247,17 @@ class TestMainCli:
         runner = CliRunner()
         result = runner.invoke(
             main,
-            ["-t", VERSION, "-m", _tpl(), "-s", _xsd(), "-d", json_data,
-             "--dry-run"],
+            [
+                "-t",
+                VERSION,
+                "-m",
+                _tpl(),
+                "-s",
+                _xsd(),
+                "-d",
+                json_data,
+                "--dry-run",
+            ],
         )
         assert result.exit_code == 0
         assert (
@@ -260,8 +269,18 @@ class TestMainCli:
         runner = CliRunner()
         result = runner.invoke(
             main,
-            ["-t", VERSION, "-m", _tpl(), "-s", _xsd(), "-d", json_data,
-             "--dry-run", "--verbose"],
+            [
+                "-t",
+                VERSION,
+                "-m",
+                _tpl(),
+                "-s",
+                _xsd(),
+                "-d",
+                json_data,
+                "--dry-run",
+                "--verbose",
+            ],
         )
         assert result.exit_code == 0
         assert "Verbose" in result.output
@@ -277,8 +296,16 @@ class TestMainCli:
             )
             result = runner.invoke(
                 main,
-                ["-t", VERSION, "-m", "template.xml", "-s", f"{VERSION}.xsd",
-                 "-d", "accounts.json"],
+                [
+                    "-t",
+                    VERSION,
+                    "-m",
+                    "template.xml",
+                    "-s",
+                    f"{VERSION}.xsd",
+                    "-d",
+                    "accounts.json",
+                ],
             )
             assert result.exit_code == 0
             assert Path(f"{VERSION}.xml").exists()
@@ -300,8 +327,18 @@ class TestMainCli:
             # Absolute paths survive the chdir into the output directory.
             result = runner.invoke(
                 main,
-                ["-t", VERSION, "-m", str(tpl), "-s", str(xsd),
-                 "-d", str(data), "-o", str(out)],
+                [
+                    "-t",
+                    VERSION,
+                    "-m",
+                    str(tpl),
+                    "-s",
+                    str(xsd),
+                    "-d",
+                    str(data),
+                    "-o",
+                    str(out),
+                ],
             )
             assert result.exit_code == 0
             assert (out / f"{VERSION}.xml").exists()
@@ -325,8 +362,19 @@ class TestMainCli:
                 config.write(f)
             result = runner.invoke(
                 main,
-                ["-t", VERSION, "-m", "template.xml", "-s", f"{VERSION}.xsd",
-                 "-d", "accounts.json", "-c", "config.ini", "--dry-run"],
+                [
+                    "-t",
+                    VERSION,
+                    "-m",
+                    "template.xml",
+                    "-s",
+                    f"{VERSION}.xsd",
+                    "-d",
+                    "accounts.json",
+                    "-c",
+                    "config.ini",
+                    "--dry-run",
+                ],
             )
             assert result.exit_code == 0
 
@@ -342,8 +390,16 @@ class TestMainCli:
             )
             result = runner.invoke(
                 main,
-                ["-t", VERSION, "-m", "template.xml", "-s", "schema.xsd",
-                 "-d", "accounts.json"],
+                [
+                    "-t",
+                    VERSION,
+                    "-m",
+                    "template.xml",
+                    "-s",
+                    "schema.xsd",
+                    "-d",
+                    "accounts.json",
+                ],
             )
             assert result.exit_code == 1
 
@@ -367,15 +423,31 @@ class TestMainCliErrors:
     def test_missing_data_file(self):
         result = CliRunner().invoke(
             main,
-            ["-t", VERSION, "-m", _tpl(), "-s", _xsd(),
-             "-d", "/nonexistent/file.csv"],
+            [
+                "-t",
+                VERSION,
+                "-m",
+                _tpl(),
+                "-s",
+                _xsd(),
+                "-d",
+                "/nonexistent/file.csv",
+            ],
         )
         assert result.exit_code == 2
 
     def test_missing_template_file(self, json_data):
         result = CliRunner().invoke(
             main,
-            ["-t", VERSION, "-m", "/nonexistent/template.xml",
-             "-s", _xsd(), "-d", json_data],
+            [
+                "-t",
+                VERSION,
+                "-m",
+                "/nonexistent/template.xml",
+                "-s",
+                _xsd(),
+                "-d",
+                json_data,
+            ],
         )
         assert result.exit_code == 2

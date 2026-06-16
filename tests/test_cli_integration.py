@@ -54,9 +54,7 @@ class TestCliHelp:
     def test_help_flag(self, runner):
         result = runner.invoke(main, ["--help"])
         assert result.exit_code == 0
-        assert (
-            "acmt" in result.output.lower() or "ISO 20022" in result.output
-        )
+        assert "acmt" in result.output.lower() or "ISO 20022" in result.output
 
     def test_short_help(self, runner):
         result = runner.invoke(main, ["-h"])
@@ -72,8 +70,17 @@ class TestCliDryRun:
             _stage()
             result = runner.invoke(
                 main,
-                ["-t", VERSION, "-m", "template.xml", "-s", f"{VERSION}.xsd",
-                 "-d", "accounts.json", "--dry-run"],
+                [
+                    "-t",
+                    VERSION,
+                    "-m",
+                    "template.xml",
+                    "-s",
+                    f"{VERSION}.xsd",
+                    "-d",
+                    "accounts.json",
+                    "--dry-run",
+                ],
             )
             assert result.exit_code == 0
             assert "validations passed" in result.output.lower()
@@ -89,8 +96,16 @@ class TestCliGenerate:
             _stage()
             result = runner.invoke(
                 main,
-                ["-t", VERSION, "-m", "template.xml", "-s", f"{VERSION}.xsd",
-                 "-d", "accounts.json"],
+                [
+                    "-t",
+                    VERSION,
+                    "-m",
+                    "template.xml",
+                    "-s",
+                    f"{VERSION}.xsd",
+                    "-d",
+                    "accounts.json",
+                ],
             )
             assert result.exit_code == 0
             assert Path(f"{VERSION}.xml").exists()
@@ -100,8 +115,17 @@ class TestCliGenerate:
             _stage()
             result = runner.invoke(
                 main,
-                ["-t", VERSION, "-m", "template.xml", "-s", f"{VERSION}.xsd",
-                 "-d", "accounts.json", "--verbose"],
+                [
+                    "-t",
+                    VERSION,
+                    "-m",
+                    "template.xml",
+                    "-s",
+                    f"{VERSION}.xsd",
+                    "-d",
+                    "accounts.json",
+                    "--verbose",
+                ],
             )
             assert result.exit_code == 0
 
@@ -120,7 +144,15 @@ class TestCliErrors:
     def test_missing_data_file(self, runner):
         result = runner.invoke(
             main,
-            ["-t", VERSION, "-m", _tpl(), "-s", _xsd(),
-             "-d", "/nonexistent/file.csv"],
+            [
+                "-t",
+                VERSION,
+                "-m",
+                _tpl(),
+                "-s",
+                _xsd(),
+                "-d",
+                "/nonexistent/file.csv",
+            ],
         )
         assert result.exit_code == 2

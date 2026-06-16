@@ -83,9 +83,7 @@ class TestGenerateXmlStringErrors:
                 schema_path("acmt.001.001.08"),
             )
 
-    def test_invalid_template_path_raises(
-        self, sample_record, schema_path
-    ):
+    def test_invalid_template_path_raises(self, sample_record, schema_path):
         with pytest.raises(ValueError, match="Invalid template path"):
             generate_xml_string(
                 [sample_record],
@@ -94,9 +92,7 @@ class TestGenerateXmlStringErrors:
                 schema_path("acmt.001.001.08"),
             )
 
-    def test_invalid_schema_path_raises(
-        self, sample_record, template_path
-    ):
+    def test_invalid_schema_path_raises(self, sample_record, template_path):
         with pytest.raises(ValueError, match="Invalid schema path"):
             generate_xml_string(
                 [sample_record],
@@ -163,9 +159,7 @@ class TestGenerateXmlOutputGuards:
         # make it a transparent pass-through so we reach the cwd guard.
         monkeypatch.setattr(gx, "validate_path", lambda p, **kw: str(p))
 
-        with pytest.raises(
-            ValueError, match="outside working directory"
-        ):
+        with pytest.raises(ValueError, match="outside working directory"):
             gx.generate_xml([sample_record], version, tpl, xsd)
 
     def test_output_path_validation_failure_raises(

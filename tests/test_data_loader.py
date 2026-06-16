@@ -200,17 +200,13 @@ class TestLoadAccountDataStreaming:
         monkeypatch.chdir(tmp_path)
         path = tmp_path / "accounts.csv"
         _write_csv(path, sample_records)
-        chunks = list(
-            load_account_data_streaming(str(path), chunk_size=1)
-        )
+        chunks = list(load_account_data_streaming(str(path), chunk_size=1))
         assert len(chunks) == 2
         assert all(len(c) == 1 for c in chunks)
 
     def test_stream_from_list_chunking(self, sample_record):
         records = [_minimal(sample_record) for _ in range(5)]
-        chunks = list(
-            load_account_data_streaming(records, chunk_size=2)
-        )
+        chunks = list(load_account_data_streaming(records, chunk_size=2))
         assert len(chunks) == 3  # 2+2+1
         assert len(chunks[-1]) == 1
 

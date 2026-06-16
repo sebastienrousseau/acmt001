@@ -93,9 +93,7 @@ class TestValidateEndpoint:
     def test_invalid_data(self, client, root_cwd):
         # Loads cleanly (all required columns present) but fails the JSON
         # schema: account_currency violates ^[A-Z]{3}$.
-        rec = json.loads(
-            (GOLD / "account_opening_basic.json").read_text()
-        )
+        rec = json.loads((GOLD / "account_opening_basic.json").read_text())
         rec[0]["account_currency"] = "euro"
         path = PROJECT_ROOT / "_test_api_invalid.json"
         path.write_text(json.dumps(rec), encoding="utf-8")
@@ -176,9 +174,7 @@ class TestGenerateEndpoint:
         assert data["file_path"] is None
 
     def test_generate_validation_failure(self, client, root_cwd):
-        rec = json.loads(
-            (GOLD / "account_opening_basic.json").read_text()
-        )
+        rec = json.loads((GOLD / "account_opening_basic.json").read_text())
         rec[0]["account_currency"] = "euro"
         path = PROJECT_ROOT / "_test_api_gen_invalid.json"
         path.write_text(json.dumps(rec), encoding="utf-8")
@@ -391,9 +387,7 @@ class TestAsyncJobProcessing:
         assert job.error == "File not found"
 
     def test_process_job_validation_failure(self, root_cwd):
-        rec = json.loads(
-            (GOLD / "account_opening_basic.json").read_text()
-        )
+        rec = json.loads((GOLD / "account_opening_basic.json").read_text())
         rec[0]["account_currency"] = "euro"
         path = PROJECT_ROOT / "_probe_async_invalid.json"
         path.write_text(json.dumps(rec), encoding="utf-8")

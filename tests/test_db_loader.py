@@ -91,9 +91,7 @@ class TestLoadDbData:
     def test_load_multiple_rows(self, tmp_path, monkeypatch):
         monkeypatch.chdir(tmp_path)
         db_path = tmp_path / "multi.db"
-        rows = [
-            {**_make_valid_row(), "msg_id": f"ACMT-{i}"} for i in range(5)
-        ]
+        rows = [{**_make_valid_row(), "msg_id": f"ACMT-{i}"} for i in range(5)]
         _create_test_db(db_path, rows=rows)
         data = load_db_data(str(db_path), "acmt001")
         assert len(data) == 5
@@ -118,9 +116,7 @@ class TestLoadDbDataStreaming:
     def test_stream_valid_db(self, tmp_path, monkeypatch):
         monkeypatch.chdir(tmp_path)
         db_path = tmp_path / "stream.db"
-        rows = [
-            {**_make_valid_row(), "msg_id": f"ACMT-{i}"} for i in range(5)
-        ]
+        rows = [{**_make_valid_row(), "msg_id": f"ACMT-{i}"} for i in range(5)]
         _create_test_db(db_path, rows=rows)
         chunks = list(
             load_db_data_streaming(str(db_path), "acmt001", chunk_size=2)
