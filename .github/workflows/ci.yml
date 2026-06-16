@@ -67,6 +67,13 @@ jobs:
         run: |
           poetry run python examples/generate_xml.py
           poetry run python examples/account_management.py
+          poetry run python examples/services_facade.py
+          poetry run python examples/validate_identifiers.py
+          poetry run python examples/validation_service.py
+          poetry run python examples/compliance_cleansing.py
+          poetry run python examples/all_message_types.py
+          poetry run python examples/data_sources.py
+          poetry run python examples/rest_api_client.py
 
   lint:
     name: Lint & Type Check

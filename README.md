@@ -341,6 +341,35 @@ acmt001 -t acmt.019.001.04 \
 > The generated XML is automatically validated against its XSD before being
 > saved; on failure Acmt001 stops and prints the schema error.
 
+### Runnable examples
+
+The [`examples/`](examples/) directory contains a self-contained, runnable
+script for every feature area (run any with `python examples/<name>.py`):
+
+| Example | Demonstrates |
+|---------|--------------|
+| `services_facade.py` | The unified `acmt001.services` layer (list/schema/validate/generate) |
+| `all_message_types.py` | Generating **all 34** message types from one record |
+| `data_sources.py` | CSV, JSON, JSONL, SQLite, Parquet — and streaming |
+| `validate_identifiers.py` | Every IBAN / BIC / LEI validator variant |
+| `validation_service.py` | `ValidationService` pre-flight + `SchemaValidator` |
+| `compliance_cleansing.py` | SWIFT charset validation, transliteration, length enforcement |
+| `rest_api_client.py` | Driving the REST API in-process |
+| `mcp_tools.py` | Calling the MCP server's tools (needs `acmt001[servers]`) |
+| `lsp_helpers.py` | The LSP diagnostics / completion / hover helpers (needs `acmt001[servers]`) |
+
+### Streaming large datasets
+
+For datasets larger than memory, `load_account_data_streaming` yields records
+in bounded chunks:
+
+```python
+from acmt001.data.loader import load_account_data_streaming
+
+for chunk in load_account_data_streaming("large_accounts.csv", chunk_size=1000):
+    process(chunk)  # each chunk is validated as it is read
+```
+
 ## REST API & Developer Portal
 
 Acmt001 ships a production-ready REST API for web services and microservices.
