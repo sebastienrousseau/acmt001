@@ -2,9 +2,9 @@ acmt001 Documentation
 =====================
 
 **acmt001** is a Python library for generating ISO 20022 acmt Account
-Management XML messages (account opening, maintenance, closing, and
-identification). It supports all 21 acmt message types
-(acmt.001.001.08 through acmt.024.001.04).
+Management XML messages (account opening, maintenance, closing,
+identification, and switching). It supports all 34 acmt message types
+(acmt.001.001.08 through acmt.037.001.02).
 
 Quick Start
 -----------

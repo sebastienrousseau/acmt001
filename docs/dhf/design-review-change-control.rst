@@ -49,7 +49,7 @@ Design Review and Change Control
        hierarchy with single base class supports catch-all handling at API
        and CLI boundaries.
    * - Disposition
-     - Approved. Architecture supports all 21 acmt message types with a
+     - Approved. Architecture supports all 34 acmt message types with a
        consistent pattern for adding future message types.
    * - Action Items
      - None. Proceed to Phase 2.
@@ -109,13 +109,13 @@ Design Review and Change Control
        applicable fields. (c) BIC validation follows ISO 9362 format rules.
        (d) IBAN validation implements ISO 7064 mod-97-10 checksum.
        (e) LEI validation follows ISO 17442 format and check-digit rules.
-       (f) All 21 message types correctly implement their type-specific
-       features (account opening identity, mandate maintenance, closing
-       status, identification verification).
+       (f) All 34 message types correctly implement their type-specific
+       features (account opening identity, mandate maintenance and amendment,
+       closing status, identification verification, account switching).
    * - Disposition
      - Approved. SWIFT compliance module meets ISO 20022 message standards.
    * - Action Items
-     - None. Gold master tests verify compliance for all 21 message types.
+     - None. Gold master tests verify compliance for all 34 message types.
 
 1.4 DR-004: API and Interface Review
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -163,13 +163,13 @@ The following table summarizes changes relevant to the DHF:
      - Summary
    * - 0.0.1
      - 2026-03-21
-     - Initial release. Support for all 21 ISO 20022 acmt message types.
+     - Initial release. Support for all 34 ISO 20022 acmt message types.
        Multi-source data ingestion (CSV, JSON, JSONL, SQLite, Parquet).
        Jinja2 template engine with XSD validation. SWIFT compliance module.
        FastAPI REST API with async job management. Click CLI. BIC, IBAN, and
        LEI validators. JSON schema validation. Path traversal protection.
        Security hardening. 1,400+ tests with 100% coverage. Gold master
-       fixtures for all 21 message types. Cross-platform CI.
+       fixtures for all 34 message types. Cross-platform CI.
 
 3. Design Change Process
 ------------------------

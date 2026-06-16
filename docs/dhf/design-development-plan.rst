@@ -30,9 +30,10 @@ account data from multiple sources (CSV, JSON, JSONL, SQLite, Parquet, Python
 objects), generates standards-compliant XML, and validates output against
 official XSD schemas.
 
-The library supports all 21 published acmt message types
-(acmt.001.001.08 through acmt.024.001.04), covering the full account-management
-lifecycle for Banking-as-a-Service (BaaS) and embedded-finance platforms.
+The library supports all 34 published acmt message types
+(acmt.001.001.08 through acmt.037.001.02), covering the full account-management
+lifecycle — including mandate amendment and account switching — for
+Banking-as-a-Service (BaaS) and embedded-finance platforms.
 
 2. Applicable Standards
 -----------------------
@@ -96,7 +97,7 @@ The project follows an **iterative, test-driven, CI-gated** methodology:
    * - 3
      - Validation Framework
      - BIC validator (ISO 9362), IBAN validator (ISO 7064 mod-97-10), LEI
-       validator (ISO 17442), JSON schema validation for all 21 message types,
+       validator (ISO 17442), JSON schema validation for all 34 message types,
        ``ValidationService`` with configurable rules
    * - 4
      - SWIFT Compliance
@@ -113,7 +114,7 @@ The project follows an **iterative, test-driven, CI-gated** methodology:
        validation, log sanitization, Jinja2 autoescape
    * - 7
      - Verification & Release
-     - 1,417 tests, 100% branch coverage, gold master fixtures for all 21
+     - 1,417 tests, 100% branch coverage, gold master fixtures for all 34
        message types, Bandit SAST scan, cross-platform CI (3 OS x 4 Python versions)
 
 5. Tools and Environment
@@ -196,4 +197,4 @@ Every commit must pass all of the following before merge:
    * - PyPI Package
      - Distributable package via ``poetry build``
    * - Templates
-     - 21 Jinja2 templates + 21 XSD schemas + 21 sample XML files
+     - 34 Jinja2 templates + 34 XSD schemas + 34 sample XML files

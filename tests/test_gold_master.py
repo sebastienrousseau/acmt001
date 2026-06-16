@@ -2,7 +2,7 @@
 
 Loads the single complete record from
 ``tests/gold_master/account_opening_full.json`` and generates XML for all
-21 supported acmt message types, asserting each is XSD-valid and carries
+34 supported acmt message types, asserting each is XSD-valid and carries
 the correct ISO 20022 namespace.
 """
 
@@ -59,8 +59,8 @@ class TestGoldMasterAllTypes:
 class TestGoldMasterCoverage:
     """Sanity checks on the gold master corpus."""
 
-    def test_all_21_types_present(self):
-        assert len(valid_xml_types) == 21
+    def test_all_34_types_present(self):
+        assert len(valid_xml_types) == 34
 
     def test_full_record_is_single_dict(self):
         data = _full_record()

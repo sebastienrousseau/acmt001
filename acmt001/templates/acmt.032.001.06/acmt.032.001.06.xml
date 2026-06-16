@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.032.001.06"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctSwtchBalTrfAck>
+		<MsgId>
+			<Id>ACMT-MSG-0001</Id>
+			<CreDtTm>2026-01-15T10:30:00</CreDtTm>
+		</MsgId>
+		<AcctSwtchDtls>
+			<UnqRefNb>SWTCH-0001</UnqRefNb>
+			<RtgUnqRefNb>RTNG-0001</RtgUnqRefNb>
+			<SwtchRcvdDtTm>2026-01-15T10:30:00</SwtchRcvdDtTm>
+			<SwtchDt>2026-01-15</SwtchDt>
+			<SwtchTp>FULL</SwtchTp>
+			<SwtchSts>BTRS</SwtchSts>
+			<BalTrfWndw>DAYH</BalTrfWndw>
+		</AcctSwtchDtls>
+		<OdAcct>
+			<Id>
+				<IBAN>GB29NWBK60161331926819</IBAN>
+			</Id>
+			<Ccy>EUR</Ccy>
+			<Nm>Treasury Operating Account</Nm>
+		</OdAcct>
+		<OdAcctBal>
+			<Amt Ccy="EUR">1234.56</Amt>
+			<CdtDbt>CRDT</CdtDbt>
+		</OdAcctBal>
+	</AcctSwtchBalTrfAck>
+</Document>

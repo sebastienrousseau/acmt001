@@ -191,7 +191,8 @@ Traceability Matrix
      - ``test_generate_xml.py``, ``test_message_matrix.py``
    * - FR-502
      - ``xml/generate_xml.py``
-     - ``_prepare_account_maintenance()`` (acmt.015, acmt.017)
+     - ``_prepare_account_maintenance()`` (acmt.015, acmt.016, acmt.017,
+       acmt.018)
      - ``test_generate_xml.py``, ``test_message_matrix.py``
    * - FR-503
      - ``xml/generate_xml.py``
@@ -204,6 +205,10 @@ Traceability Matrix
    * - FR-505
      - ``xml/generate_xml.py``
      - ``_prepare_account_status()`` (acmt.005, acmt.006)
+     - ``test_generate_xml.py``, ``test_message_matrix.py``
+   * - FR-506
+     - ``xml/generate_xml.py``
+     - ``_prepare_account_switch()`` (acmt.027 – acmt.037)
      - ``test_generate_xml.py``, ``test_message_matrix.py``
 
 1.6 FR-600: Interfaces
@@ -541,7 +546,7 @@ Traceability Matrix
      - ``pyproject.toml``, CI ``security`` job
      - CI pipeline verification
    * - R-011
-     - Gold master tests for all 21 message types
+     - Gold master tests for all 34 message types
      - ``templates/acmt.0XX.001.XX/``
      - ``test_gold_master.py``, ``test_message_matrix.py``
    * - R-012

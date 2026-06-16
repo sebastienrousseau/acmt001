@@ -12,8 +12,8 @@ from acmt001.constants import (
 )
 
 
-def test_valid_xml_types_has_21_entries():
-    assert len(valid_xml_types) == 21
+def test_valid_xml_types_has_34_entries():
+    assert len(valid_xml_types) == 34
 
 
 def test_valid_xml_types_format():

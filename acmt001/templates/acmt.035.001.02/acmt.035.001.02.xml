@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.035.001.02"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctSwtchPmtRspn>
+		<MsgId>
+			<Id>ACMT-MSG-0001</Id>
+			<CreDtTm>2026-01-15T10:30:00</CreDtTm>
+		</MsgId>
+		<AcctSwtchDtls>
+			<UnqRefNb>SWTCH-0001</UnqRefNb>
+			<RtgUnqRefNb>RTNG-0001</RtgUnqRefNb>
+			<SwtchRcvdDtTm>2026-01-15T10:30:00</SwtchRcvdDtTm>
+			<SwtchDt>2026-01-15</SwtchDt>
+			<SwtchTp>FULL</SwtchTp>
+			<SwtchSts>ACPT</SwtchSts>
+			<Rspn>
+				<RspnCd>ACPT</RspnCd>
+				<AddtlDtls>Payment instruction accepted by old account servicer</AddtlDtls>
+			</Rspn>
+		</AcctSwtchDtls>
+	</AcctSwtchPmtRspn>
+</Document>

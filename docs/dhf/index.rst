@@ -42,7 +42,7 @@ Scope
 
 - **Product:** acmt001 Python library
 - **Version:** 0.0.1
-- **Message standard:** ISO 20022 acmt.001.001.08 through acmt.024.001.04 (all 21 acmt message types)
+- **Message standard:** ISO 20022 acmt.001.001.08 through acmt.037.001.02 (all 34 acmt message types)
 - **IEC 62304 safety classification:** Class A (voluntary Class C processes applied)
 
 Document Set

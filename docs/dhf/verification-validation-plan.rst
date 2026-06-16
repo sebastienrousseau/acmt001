@@ -32,7 +32,7 @@ system-level validation:
 3. **System Tests** — End-to-end workflows from data ingestion through XML
    output and validation
 4. **Regression Tests** — Gold master comparison against known-good reference
-   outputs for all 21 message types
+   outputs for all 34 message types
 
 All tests are automated and executed on every commit via GitHub Actions CI.
 
@@ -60,7 +60,7 @@ All tests are automated and executed on every commit via GitHub Actions CI.
        sanitization tests.
    * - ``message_compat``
      - Message Compatibility
-     - Tests exercising all 21 acmt message types. Verify message-type
+     - Tests exercising all 34 acmt message types. Verify message-type
        dispatch and type-specific features.
    * - ``perf``
      - Performance
@@ -77,7 +77,7 @@ All tests are automated and executed on every commit via GitHub Actions CI.
    pytest -m smoke              # Quick sanity checks
    pytest -m integration        # End-to-end workflows
    pytest -m security           # Security-focused tests
-   pytest -m message_compat     # All 21 message types
+   pytest -m message_compat     # All 34 message types
    pytest -m perf               # Performance benchmarks
 
 3. Test File Inventory
@@ -121,9 +121,9 @@ All tests are automated and executed on every commit via GitHub Actions CI.
      - Purpose
      - Requirements
    * - ``test_generate_xml.py``
-     - XML generation for all 21 message types, message-type dispatch
+     - XML generation for all 34 message types, message-type dispatch
        mechanism
-     - FR-101, FR-102, FR-104, FR-501–FR-505
+     - FR-101, FR-102, FR-104, FR-501–FR-506
    * - ``test_xsd_validation.py``
      - ``validate_via_xsd()``, ``validate_xml_string_via_xsd()``, XXE
        prevention
@@ -136,11 +136,11 @@ All tests are automated and executed on every commit via GitHub Actions CI.
      - FR-105
    * - ``test_gold_master.py``
      - End-to-end gold master: source → ingestion → XML → XSD for all
-       21 message types
+       34 message types
      - FR-101, FR-102, FR-103
    * - ``test_message_matrix.py``
-     - Message compatibility matrix across all 21 acmt message types
-     - FR-102, FR-501–FR-505
+     - Message compatibility matrix across all 34 acmt message types
+     - FR-102, FR-501–FR-506
 
 3.3 Data Ingestion Tests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -294,7 +294,7 @@ All tests are automated and executed on every commit via GitHub Actions CI.
 --------------------
 
 The ``test_gold_master.py`` file provides end-to-end regression testing for all
-21 acmt message types. For each message type:
+34 acmt message types. For each message type:
 
 1. Load reference account data from a known input fixture
 2. Generate XML using the message-type template and preparer
@@ -302,7 +302,7 @@ The ``test_gold_master.py`` file provides end-to-end regression testing for all
 4. Compare output against a known-good reference XML file
 
 **Gold master fixtures** are stored in ``acmt001/templates/acmt.0XX.001.XX/``
-as ``.xml`` reference files for each of the 21 message types.
+as ``.xml`` reference files for each of the 34 message types.
 
 5. Static Analysis Tools
 -------------------------
@@ -389,7 +389,7 @@ The software release is accepted when **all** of the following are satisfied:
      - Zero ruff/black formatting violations
      - GitHub Actions lint job
    * - 6
-     - All 21 gold master tests pass (one per acmt message type)
+     - All 34 gold master tests pass (one per acmt message type)
      - ``test_gold_master.py``
    * - 7
      - All pre-commit hooks pass

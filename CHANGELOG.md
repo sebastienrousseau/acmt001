@@ -10,11 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Initial release of the acmt001 library for ISO 20022 acmt Account
-  Management messages (account opening, maintenance, closing, and
-  identification)
-- Support for all 21 ISO 20022 acmt message types (acmt.001 through
-  acmt.024), including Account Opening Request (acmt.007.001.05) and
-  Account Closing Request (acmt.019.001.04)
+  Management messages (account opening, maintenance, closing,
+  identification, and switching)
+- Support for all 34 ISO 20022 acmt message types (acmt.001 through
+  acmt.037), including Account Opening Request (acmt.007.001.05),
+  Account Closing Request (acmt.019.001.04), the mandate-amendment
+  messages (acmt.016.001.05, acmt.018.001.05), and the full
+  account-switching suite (acmt.027.001.06 through acmt.037.001.02)
 - Multi-source data ingestion: CSV, JSON, JSONL, SQLite, Parquet
 - Jinja2-based XML template engine with XSD validation
 - SWIFT compliance module: charset validation, field length enforcement,

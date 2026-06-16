@@ -1,4 +1,4 @@
-"""Schema-driven matrix tests across all 21 acmt message types.
+"""Schema-driven matrix tests across all 34 acmt message types.
 
 Parametrized over ``acmt001.constants.valid_xml_types``: asserts each type
 ships a template, an XSD, and a JSON schema, and that generation succeeds

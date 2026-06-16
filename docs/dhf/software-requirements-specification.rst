@@ -39,9 +39,10 @@ Software Requirements Specification
        structured account data using Jinja2 templates.
      - Essential
    * - FR-102
-     - The system shall support all 21 published acmt message types
-       (acmt.001.001.08 through acmt.024.001.04) via a message-type dispatch
-       mechanism (``constants.valid_xml_types``).
+     - The system shall support all 34 published acmt message types
+       (acmt.001.001.08 through acmt.037.001.02, including the
+       mandate-amendment and account-switching families) via a message-type
+       dispatch mechanism (``constants.valid_xml_types``).
      - Essential
    * - FR-103
      - The system shall validate all generated XML against the corresponding
@@ -178,10 +179,10 @@ Software Requirements Specification
        requires it.
      - Essential
    * - FR-502
-     - Account maintenance messages (acmt.003.001.08, acmt.015.001.05,
-       acmt.017.001.05) shall include mandate-related information
-       (mandate identifier, mandate channel, signature requirements) in
-       generated XML.
+     - Account maintenance and mandate-amendment messages (acmt.003.001.08,
+       acmt.015.001.05, acmt.016.001.05, acmt.017.001.05, acmt.018.001.05)
+       shall include mandate-related information (mandate identifier, mandate
+       channel, signature requirements) in generated XML.
      - Essential
    * - FR-503
      - Account closing messages (acmt.019.001.04, acmt.020.001.04,
@@ -197,6 +198,13 @@ Software Requirements Specification
      - Status report messages (acmt.005.001.06, acmt.006.001.07) shall use
        the assigner/assignee and original-identifier fields for status
        correlation.
+     - Essential
+   * - FR-506
+     - Account-switching messages (acmt.027.001.06 through acmt.037.001.02)
+       shall include the switching-lifecycle fields (switch information
+       request/response, payment cancellation, redirection, balance transfer
+       and acknowledgement, completion notification, payment request/response,
+       termination, and technical rejection) in generated XML.
      - Essential
 
 1.6 FR-600: Interfaces

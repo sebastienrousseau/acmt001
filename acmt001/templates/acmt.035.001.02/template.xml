@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:acmt.035.001.02"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AcctSwtchPmtRspn>
+		<MsgId>
+			<Id>{{msg_id}}</Id>
+			<CreDtTm>{{creation_date_time}}</CreDtTm>
+		</MsgId>
+		<AcctSwtchDtls>
+			<UnqRefNb>{{switch_reference}}</UnqRefNb>
+			<RtgUnqRefNb>{{routing_id}}</RtgUnqRefNb>
+			{% if switch_received_date_time %}<SwtchRcvdDtTm>{{switch_received_date_time}}</SwtchRcvdDtTm>{% endif %}
+			{% if switch_date %}<SwtchDt>{{switch_date}}</SwtchDt>{% endif %}
+			<SwtchTp>{{switch_type_cd}}</SwtchTp>
+			{% if switch_status_cd %}<SwtchSts>{{switch_status_cd}}</SwtchSts>{% endif %}
+			{% if response_code %}<Rspn>
+				<RspnCd>{{response_code}}</RspnCd>
+				{% if response_additional_details %}<AddtlDtls>{{response_additional_details}}</AddtlDtls>{% endif %}
+			</Rspn>{% endif %}
+		</AcctSwtchDtls>
+	</AcctSwtchPmtRspn>
+</Document>

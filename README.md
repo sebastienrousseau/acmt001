@@ -13,7 +13,7 @@
 [![Quality][quality-badge]][quality-url]
 [![Documentation][docs-badge]][docs-url]
 
-> **Latest Release: v0.0.1** - Account opening, maintenance, closing, and identification XML generation, IBAN/BIC/LEI validation, FastAPI REST API, and 21 ISO 20022 acmt message types.
+> **Latest Release: v0.0.1** - Account opening, maintenance, closing, identification, and account switching XML generation, IBAN/BIC/LEI validation, FastAPI REST API, and 34 ISO 20022 acmt message types.
 > [See what's new →][release-001]
 
 ## Overview
@@ -60,9 +60,10 @@ turns that account lifecycle into validated, auditable, machine-generated ISO
   checking with mypy (strict mode)
 - **Identity Compliance:** IBAN, BIC, and LEI validation, charset
   cleansing, and field length enforcement
-- **21 ISO 20022 Message Types Supported:** Covers the full account
+- **34 ISO 20022 Message Types Supported:** Covers the full account
   lifecycle — opening, confirmation, modification, status reporting,
-  servicing, mandate maintenance, closing, and identification
+  servicing, mandate maintenance, mandate amendment, closing,
+  identification, and account switching
 - **Production-Ready:** Designed for BaaS platforms, embedded-finance
   providers, and corporate treasuries managing accounts at scale
 
@@ -79,10 +80,16 @@ As of today, the library covers the full **account management lifecycle**:
   request, and report on account management instructions
 - **Mandate Maintenance (acmt.015 / acmt.017):** Maintain account mandates,
   including excluded mandates and signatory arrangements
+- **Mandate Amendment (acmt.016 / acmt.018):** Amend in-flight mandate
+  maintenance requests, including excluded mandates
 - **Account Closing (acmt.019 / acmt.020 / acmt.021):** Request, amend, and
   supplement the closure of an account
 - **Identification (acmt.022 / acmt.023 / acmt.024):** Advise identification
   changes and request and report on identification verification
+- **Account Switching (acmt.027 – acmt.037):** Drive the full account-switch
+  lifecycle — information request and response, payment cancellation,
+  redirection, balance transfer and acknowledgement, completion notification,
+  payment request and response, switch termination, and technical rejection
 
 ### Message Lifecycle Overview
 
@@ -102,13 +109,26 @@ As of today, the library covers the full **account management lifecycle**:
 | Servicing | acmt.013.001.04 | Account Report Request | Request an account report |
 | Servicing | acmt.014.001.05 | Account Report | Deliver an account report |
 | Mandate | acmt.015.001.05 | Account Excluded Mandate Maintenance Request | Maintain excluded mandates |
+| Mandate | acmt.016.001.05 | Account Excluded Mandate Maintenance Amendment Request | Amend an in-flight excluded mandate request |
 | Mandate | acmt.017.001.05 | Account Mandate Maintenance Request | Maintain account mandates |
+| Mandate | acmt.018.001.05 | Account Mandate Maintenance Amendment Request | Amend an in-flight mandate request |
 | Closing | acmt.019.001.04 | Account Closing Request | Request closure of an account |
 | Closing | acmt.020.001.04 | Account Closing Amendment Request | Amend an in-flight closing request |
 | Closing | acmt.021.001.04 | Account Closing Additional Information Request | Supply additional closing information |
 | Identification | acmt.022.001.04 | Identification Modification Advice | Advise an identification change |
 | Identification | acmt.023.001.04 | Identification Verification Request | Request identification verification |
 | Identification | acmt.024.001.04 | Identification Verification Report | Report identification verification results |
+| Switching | acmt.027.001.06 | Account Switch Information Request | Request account switch information |
+| Switching | acmt.028.001.06 | Account Switch Information Response | Respond with account switch information |
+| Switching | acmt.029.001.06 | Account Switch Cancel Existing Payment | Cancel an existing payment arrangement |
+| Switching | acmt.030.001.04 | Account Switch Request Redirection | Request redirection of payments |
+| Switching | acmt.031.001.06 | Account Switch Request Balance Transfer | Request transfer of the account balance |
+| Switching | acmt.032.001.06 | Account Switch Balance Transfer Acknowledgement | Acknowledge the balance transfer |
+| Switching | acmt.033.001.02 | Account Switch Notify Account Switch Complete | Notify that the switch is complete |
+| Switching | acmt.034.001.06 | Account Switch Request Payment | Request a payment as part of the switch |
+| Switching | acmt.035.001.02 | Account Switch Payment Response | Respond to a switch payment request |
+| Switching | acmt.036.001.01 | Account Switch Termination Switch | Terminate an account switch |
+| Switching | acmt.037.001.02 | Account Switch Technical Rejection | Reject a switch message for technical reasons |
 
 The account lifecycle typically begins with an **account opening request
 (acmt.007)** or **opening instruction (acmt.001)**. An account owner — often a
@@ -1047,9 +1067,9 @@ acmt001/
 ├── db/               # SQLite loader (standard + streaming)
 ├── json/             # JSON and JSONL loader
 ├── parquet/          # Apache Parquet loader
-├── schemas/          # 21 JSON schemas for input validation
+├── schemas/          # 34 JSON schemas for input validation
 ├── security/         # Path traversal prevention
-├── templates/        # 21 Jinja2 templates + XSD schemas
+├── templates/        # 34 Jinja2 templates + XSD schemas
 ├── validation/       # IBAN, BIC, LEI, and schema validators
 └── xml/              # XML generation, XSD validation, file I/O
 ```
@@ -1163,7 +1183,7 @@ python -m pip install acmt001
 
 **Issue: "Error: Invalid XML message type"**
 
-Solution: Ensure you're using one of the 21 supported message types
+Solution: Ensure you're using one of the 34 supported message types
 (acmt.001.001.08, acmt.002.001.08, …, acmt.024.001.04). See the
 [Arguments](#arguments) section for the full list.
 
@@ -1223,7 +1243,7 @@ definitions supported by **Acmt001**.
 #### Account Management
 
 Set of messages used between account owners and account servicers for the
-opening, maintenance, closing, and identification of accounts.
+opening, maintenance, closing, identification, and switching of accounts.
 
 | Status | Message type    | Name                                              |
 | ------ | --------------- | ------------------------------------------------- |
@@ -1241,13 +1261,26 @@ opening, maintenance, closing, and identification of accounts.
 | ✅      | acmt.013.001.04 | Account Report Request                            |
 | ✅      | acmt.014.001.05 | Account Report                                    |
 | ✅      | acmt.015.001.05 | Account Excluded Mandate Maintenance Request      |
+| ✅      | acmt.016.001.05 | Account Excluded Mandate Maintenance Amendment Request |
 | ✅      | acmt.017.001.05 | Account Mandate Maintenance Request               |
+| ✅      | acmt.018.001.05 | Account Mandate Maintenance Amendment Request     |
 | ✅      | acmt.019.001.04 | Account Closing Request                           |
 | ✅      | acmt.020.001.04 | Account Closing Amendment Request                 |
 | ✅      | acmt.021.001.04 | Account Closing Additional Information Request     |
 | ✅      | acmt.022.001.04 | Identification Modification Advice                |
 | ✅      | acmt.023.001.04 | Identification Verification Request               |
 | ✅      | acmt.024.001.04 | Identification Verification Report                |
+| ✅      | acmt.027.001.06 | Account Switch Information Request                 |
+| ✅      | acmt.028.001.06 | Account Switch Information Response                |
+| ✅      | acmt.029.001.06 | Account Switch Cancel Existing Payment            |
+| ✅      | acmt.030.001.04 | Account Switch Request Redirection                |
+| ✅      | acmt.031.001.06 | Account Switch Request Balance Transfer           |
+| ✅      | acmt.032.001.06 | Account Switch Balance Transfer Acknowledgement   |
+| ✅      | acmt.033.001.02 | Account Switch Notify Account Switch Complete     |
+| ✅      | acmt.034.001.06 | Account Switch Request Payment                    |
+| ✅      | acmt.035.001.02 | Account Switch Payment Response                   |
+| ✅      | acmt.036.001.01 | Account Switch Termination Switch                 |
+| ✅      | acmt.037.001.02 | Account Switch Technical Rejection                |
 
 ## Licence
 

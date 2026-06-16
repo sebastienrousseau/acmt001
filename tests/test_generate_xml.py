@@ -1,4 +1,4 @@
-"""Tests for acmt001.xml.generate_xml across all 21 acmt message types."""
+"""Tests for acmt001.xml.generate_xml across all 34 acmt message types."""
 
 import pytest
 

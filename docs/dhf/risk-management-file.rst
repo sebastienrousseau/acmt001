@@ -134,7 +134,7 @@ Risks are assessed using an ISO 14971-style framework:
      - Medium
      - Unlikely
      - Low
-     - ``valid_xml_types`` allowlist in ``constants.py`` defines exactly 21
+     - ``valid_xml_types`` allowlist in ``constants.py`` defines exactly 34
        accepted message-type strings. ``ConfigurationError`` raised for any
        value not in the list.
    * - R-009
@@ -161,9 +161,9 @@ Risks are assessed using an ISO 14971-style framework:
      - High
      - Rare
      - Medium
-     - 21 JSON schemas + 21 XSD schemas maintained in ``templates/``
+     - 34 JSON schemas + 34 XSD schemas maintained in ``templates/``
        directory. Gold master tests (``test_gold_master.py``) validate
-       end-to-end for all 21 message types against known-good reference
+       end-to-end for all 34 message types against known-good reference
        outputs.
    * - R-012
      - Server-side template injection (SSTI) via crafted account data
@@ -228,7 +228,7 @@ Risks are assessed using an ISO 14971-style framework:
      - CI pipeline ``security`` job (Bandit + safety)
      - Pass
    * - R-011
-     - Gold master tests for all 21 message types
+     - Gold master tests for all 34 message types
      - ``test_gold_master.py``, ``test_message_matrix.py``
      - Pass
    * - R-012

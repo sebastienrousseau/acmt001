@@ -22,8 +22,8 @@ _TMPDIR = tempfile.gettempdir()
 
 
 class TestMessageType:
-    def test_has_21_members(self):
-        assert len(MessageType) == 21
+    def test_has_34_members(self):
+        assert len(MessageType) == 34
 
     def test_values_format(self):
         for mt in MessageType:

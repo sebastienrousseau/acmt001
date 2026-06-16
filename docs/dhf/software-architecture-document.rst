@@ -80,7 +80,7 @@ responsibility:
        (``register_namespaces.py``), file I/O (``write_xml_to_file.py``,
        ``xml_to_string.py``, ``generate_updated_xml_file_path.py``)
    * - ``templates/``
-     - 21 message-type directories, each containing a Jinja2 template
+     - 34 message-type directories, each containing a Jinja2 template
        (``template.xml``), XSD schema (``.xsd``), and sample output (``.xml``)
 
 Top-level modules:
@@ -159,13 +159,26 @@ in ``acmt001/xml/generate_xml.py``:
        "acmt.013.001.04": _prepare_account_report,
        "acmt.014.001.05": _prepare_account_report,
        "acmt.015.001.05": _prepare_account_maintenance,
+       "acmt.016.001.05": _prepare_account_maintenance,
        "acmt.017.001.05": _prepare_account_maintenance,
+       "acmt.018.001.05": _prepare_account_maintenance,
        "acmt.019.001.04": _prepare_account_closing,
        "acmt.020.001.04": _prepare_account_amendment,
        "acmt.021.001.04": _prepare_account_additional_info,
        "acmt.022.001.04": _prepare_identification,
        "acmt.023.001.04": _prepare_identification,
        "acmt.024.001.04": _prepare_identification,
+       "acmt.027.001.06": _prepare_account_switch,
+       "acmt.028.001.06": _prepare_account_switch,
+       "acmt.029.001.06": _prepare_account_switch,
+       "acmt.030.001.04": _prepare_account_switch,
+       "acmt.031.001.06": _prepare_account_switch,
+       "acmt.032.001.06": _prepare_account_switch,
+       "acmt.033.001.02": _prepare_account_switch,
+       "acmt.034.001.06": _prepare_account_switch,
+       "acmt.035.001.02": _prepare_account_switch,
+       "acmt.036.001.01": _prepare_account_switch,
+       "acmt.037.001.02": _prepare_account_switch,
    }
 
 **Preparer groupings and their distinguishing features:**
@@ -199,14 +212,20 @@ in ``acmt001/xml/generate_xml.py``:
      - acmt.013, acmt.014
      - Account report request and report content
    * - ``_prepare_account_maintenance``
-     - acmt.015, acmt.017
-     - Mandate-related information (mandate id, channel, signatures)
+     - acmt.015, acmt.016, acmt.017, acmt.018
+     - Mandate maintenance and amendment information (mandate id, channel,
+       signatures)
    * - ``_prepare_account_closing``
      - acmt.019
      - Closing instruction status and reason codes
    * - ``_prepare_identification``
      - acmt.022, acmt.023, acmt.024
      - Verification identifier and verification indicator
+   * - ``_prepare_account_switch``
+     - acmt.027 – acmt.037
+     - Account-switching lifecycle fields (switch information, payment
+       cancellation, redirection, balance transfer, completion notification,
+       payment request/response, termination, technical rejection)
 
 Adding support for future acmt message types requires only:
 

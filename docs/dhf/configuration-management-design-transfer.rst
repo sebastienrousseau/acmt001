@@ -154,13 +154,13 @@ commit:
      - ``tests/`` (36 test files, 1,417 test cases)
    * - Jinja2 templates
      - XML
-     - ``acmt001/templates/acmt.0XX.001.XX/template.xml`` (21 files)
+     - ``acmt001/templates/acmt.0XX.001.XX/template.xml`` (34 files)
    * - XSD schemas
      - XML Schema
-     - ``acmt001/templates/acmt.0XX.001.XX/acmt.0XX.001.XX.xsd`` (21 files)
+     - ``acmt001/templates/acmt.0XX.001.XX/acmt.0XX.001.XX.xsd`` (34 files)
    * - Reference XML
      - XML
-     - ``acmt001/templates/acmt.0XX.001.XX/acmt.0XX.001.XX.xml`` (21 files)
+     - ``acmt001/templates/acmt.0XX.001.XX/acmt.0XX.001.XX.xml`` (34 files)
    * - Project metadata
      - TOML
      - ``pyproject.toml``
@@ -198,7 +198,7 @@ following verified characteristics:
    * - Characteristic
      - Value
    * - acmt message types supported
-     - 21 (acmt.001.001.08 through acmt.024.001.04)
+     - 34 (acmt.001.001.08 through acmt.037.001.02)
    * - Test count
      - 1,417
    * - Branch coverage
@@ -250,7 +250,7 @@ Before any release, the following steps must be completed:
      - mypy strict reports zero errors
      - CI lint job output
    * - 5
-     - All 21 gold master tests pass
+     - All 34 gold master tests pass
      - ``test_gold_master.py`` output
    * - 6
      - All pre-commit hooks pass

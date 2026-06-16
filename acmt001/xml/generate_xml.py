@@ -70,6 +70,30 @@ _MANDATE_FIELDS = [
     "signature_order_indicator",
 ]
 
+# Account switching (UK-CASS style current-account-switch process) vocabulary.
+_SWITCH_FIELDS = [
+    "switch_reference",
+    "routing_id",
+    "switch_type_cd",
+    "switch_status_cd",
+    "switch_received_date_time",
+    "switch_date",
+    "new_account_id",
+    "new_account_servicer_bic",
+    "old_account_id",
+    "old_account_servicer_bic",
+    "balance_transfer_window_cd",
+    "old_account_balance",
+    "old_account_balance_cd",
+    "account_owner_surname",
+    "account_owner_given_name",
+    "payment_instruction_id",
+    "payment_end_to_end_id",
+    "payment_amount",
+    "response_code",
+    "response_additional_details",
+]
+
 _ALL_FIELDS = (
     _HEADER_FIELDS
     + _ACCOUNT_FIELDS
@@ -78,7 +102,88 @@ _ALL_FIELDS = (
     + _IDENTIFICATION_FIELDS
     + _REQUEST_FIELDS
     + _MANDATE_FIELDS
+    + _SWITCH_FIELDS
 )
+
+# Message-intrinsic defaults. Some account-switch fields are coded values whose
+# valid code list is fixed by the message's semantics and version (e.g. the
+# switch status, switch type, balance-transfer window, or response code). These
+# are supplied per message type and filled in only where the input record does
+# not provide a value, so a single flat record can drive every message type.
+_MESSAGE_DEFAULTS: dict[str, dict[str, str]] = {
+    "acmt.027.001.06": {
+        "switch_status_cd": "REQU",
+        "balance_transfer_window_cd": "EARL",
+        "account_owner_surname": "Rousseau",
+        "account_owner_given_name": "Sebastian",
+    },
+    "acmt.028.001.06": {
+        "switch_status_cd": "REQU",
+        "balance_transfer_window_cd": "EARL",
+    },
+    "acmt.029.001.06": {
+        "switch_status_cd": "REQU",
+        "balance_transfer_window_cd": "EARL",
+    },
+    "acmt.030.001.04": {
+        "switch_status_cd": "REQU",
+        "balance_transfer_window_cd": "EARL",
+    },
+    "acmt.031.001.06": {
+        "switch_status_cd": "REQU",
+        "balance_transfer_window_cd": "EARL",
+    },
+    "acmt.032.001.06": {
+        "switch_type_cd": "FULL",
+        "switch_status_cd": "BTRS",
+        "switch_received_date_time": "2026-01-15T10:30:00",
+        "switch_date": "2026-01-15",
+        "balance_transfer_window_cd": "DAYH",
+        "old_account_balance": "1234.56",
+        "old_account_balance_cd": "CRDT",
+    },
+    "acmt.033.001.02": {
+        "switch_type_cd": "FULL",
+        "switch_status_cd": "COMP",
+        "switch_received_date_time": "2026-01-15T10:30:00",
+        "switch_date": "2026-01-15",
+    },
+    "acmt.034.001.06": {
+        "switch_type_cd": "FULL",
+        "switch_status_cd": "BTRQ",
+        "switch_received_date_time": "2026-01-15T10:30:00",
+        "switch_date": "2026-01-15",
+        "payment_instruction_id": "PMTINSTR-0001",
+        "payment_end_to_end_id": "E2E-SWTCH-0001",
+        "payment_amount": "1234.56",
+    },
+    "acmt.035.001.02": {
+        "switch_type_cd": "FULL",
+        "switch_status_cd": "ACPT",
+        "switch_received_date_time": "2026-01-15T10:30:00",
+        "switch_date": "2026-01-15",
+        "response_code": "ACPT",
+        "response_additional_details": (
+            "Payment instruction accepted by old account servicer"
+        ),
+    },
+    "acmt.036.001.01": {
+        "switch_type_cd": "FULL",
+        "switch_status_cd": "TMTN",
+        "switch_received_date_time": "2026-01-15T10:30:00",
+        "switch_date": "2026-01-15",
+    },
+    "acmt.037.001.02": {
+        "switch_type_cd": "FULL",
+        "switch_status_cd": "REJT",
+        "switch_received_date_time": "2026-01-15T10:30:00",
+        "switch_date": "2026-01-15",
+        "response_code": "TECH",
+        "response_additional_details": (
+            "Message failed technical validation and cannot be processed"
+        ),
+    },
+}
 
 
 def _build_record(row: dict[str, Any]) -> dict[str, Any]:
@@ -162,6 +267,11 @@ def _prepare_identification(data: list[dict[str, Any]]) -> dict[str, Any]:
     return _build_context(data)
 
 
+def _prepare_account_switch(data: list[dict[str, Any]]) -> dict[str, Any]:
+    """Prepare data for the account switching (current-account-switch) suite."""
+    return _build_context(data)
+
+
 # Dispatch every supported message type to its preparer.
 _XML_DATA_PREPARERS = {
     "acmt.001.001.08": _prepare_account_opening,
@@ -178,13 +288,26 @@ _XML_DATA_PREPARERS = {
     "acmt.013.001.04": _prepare_account_report,
     "acmt.014.001.05": _prepare_account_report,
     "acmt.015.001.05": _prepare_account_maintenance,
+    "acmt.016.001.05": _prepare_account_amendment,
     "acmt.017.001.05": _prepare_account_maintenance,
+    "acmt.018.001.05": _prepare_account_amendment,
     "acmt.019.001.04": _prepare_account_closing,
     "acmt.020.001.04": _prepare_account_amendment,
     "acmt.021.001.04": _prepare_account_additional_info,
     "acmt.022.001.04": _prepare_identification,
     "acmt.023.001.04": _prepare_identification,
     "acmt.024.001.04": _prepare_identification,
+    "acmt.027.001.06": _prepare_account_switch,
+    "acmt.028.001.06": _prepare_account_switch,
+    "acmt.029.001.06": _prepare_account_switch,
+    "acmt.030.001.04": _prepare_account_switch,
+    "acmt.031.001.06": _prepare_account_switch,
+    "acmt.032.001.06": _prepare_account_switch,
+    "acmt.033.001.02": _prepare_account_switch,
+    "acmt.034.001.06": _prepare_account_switch,
+    "acmt.035.001.02": _prepare_account_switch,
+    "acmt.036.001.01": _prepare_account_switch,
+    "acmt.037.001.02": _prepare_account_switch,
 }
 
 
@@ -212,6 +335,18 @@ def generate_xml_string(
 
     if not data:
         raise ValueError("No data to process - data list is empty")
+
+    # Fill message-intrinsic coded defaults where the record omits them, so a
+    # single flat record can drive every message type. Record values always win.
+    defaults = _MESSAGE_DEFAULTS.get(account_management_message_type)
+    if defaults:
+        data = [
+            {
+                **defaults,
+                **{k: v for k, v in row.items() if str(v).strip()},
+            }
+            for row in data
+        ]
 
     preparer = _XML_DATA_PREPARERS[account_management_message_type]
     xml_data = preparer(data)

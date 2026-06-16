@@ -195,6 +195,108 @@
         "false"
       ],
       "description": "Whether the signature order is significant"
+    },
+    "switch_reference": {
+      "type": "string",
+      "maxLength": 35,
+      "description": "Account switch unique reference"
+    },
+    "routing_id": {
+      "type": "string",
+      "maxLength": 35,
+      "description": "Account switch routing unique reference"
+    },
+    "switch_type_cd": {
+      "type": "string",
+      "enum": [
+        "FULL",
+        "PART"
+      ],
+      "description": "Switch type (full or partial)"
+    },
+    "switch_status_cd": {
+      "type": "string",
+      "maxLength": 4,
+      "description": "Account switch status code"
+    },
+    "switch_received_date_time": {
+      "type": "string",
+      "description": "Switch received date and time"
+    },
+    "switch_date": {
+      "type": "string",
+      "description": "Switch date (ISO date)"
+    },
+    "new_account_id": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}[0-9]{2}[A-Z0-9]+$",
+      "description": "New (receiving) account IBAN"
+    },
+    "new_account_servicer_bic": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$",
+      "description": "New account servicer BICFI"
+    },
+    "old_account_id": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}[0-9]{2}[A-Z0-9]+$",
+      "description": "Old (redirecting) account IBAN"
+    },
+    "old_account_servicer_bic": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$",
+      "description": "Old account servicer BICFI"
+    },
+    "balance_transfer_window_cd": {
+      "type": "string",
+      "maxLength": 4,
+      "description": "Balance transfer window code"
+    },
+    "old_account_balance": {
+      "type": "string",
+      "description": "Old account closing balance amount"
+    },
+    "old_account_balance_cd": {
+      "type": "string",
+      "enum": [
+        "CRDT",
+        "DBIT"
+      ],
+      "description": "Old account balance credit/debit indicator"
+    },
+    "account_owner_surname": {
+      "type": "string",
+      "maxLength": 35,
+      "description": "Account owner surname (individual)"
+    },
+    "account_owner_given_name": {
+      "type": "string",
+      "maxLength": 35,
+      "description": "Account owner given name (individual)"
+    },
+    "payment_instruction_id": {
+      "type": "string",
+      "maxLength": 35,
+      "description": "Payment instruction identification"
+    },
+    "payment_end_to_end_id": {
+      "type": "string",
+      "maxLength": 35,
+      "description": "Payment end-to-end identification"
+    },
+    "payment_amount": {
+      "type": "string",
+      "description": "Payment amount"
+    },
+    "response_code": {
+      "type": "string",
+      "maxLength": 4,
+      "description": "Response / rejection reason code"
+    },
+    "response_additional_details": {
+      "type": "string",
+      "maxLength": 350,
+      "description": "Response additional details"
     }
   },
   "additionalProperties": true
