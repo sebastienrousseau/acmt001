@@ -356,8 +356,9 @@ script for every feature area (run any with `python examples/<name>.py`):
 | `validation_service.py` | `ValidationService` pre-flight + `SchemaValidator` |
 | `compliance_cleansing.py` | SWIFT charset validation, transliteration, length enforcement |
 | `rest_api_client.py` | Driving the REST API in-process |
-| `mcp_tools.py` | Calling the MCP server's tools (needs `acmt001-mcp` / `acmt001-lsp`) |
-| `lsp_helpers.py` | The LSP diagnostics / completion / hover helpers (needs `acmt001-mcp` / `acmt001-lsp`) |
+
+(MCP and LSP examples live in the [`acmt001-mcp`](https://github.com/sebastienrousseau/acmt001-mcp)
+and [`acmt001-lsp`](https://github.com/sebastienrousseau/acmt001-lsp) repositories.)
 
 ### Streaming large datasets
 
@@ -567,15 +568,16 @@ acmt001/                  # the core package (this repo, packaged as `acmt001`)
 ├── templates/    # 34 Jinja2 templates + real ISO 20022 XSDs
 ├── validation/   # IBAN, BIC, LEI, and schema validators
 └── xml/          # XML generation, XSD validation, file I/O
-
-packages/                 # companion packages in the acmt001 suite
-├── acmt001-mcp/   # MCP server  (depends on acmt001, packaged as `acmt001-mcp`)
-└── acmt001-lsp/   # LSP server  (depends on acmt001, packaged as `acmt001-lsp`)
 ```
 
-The project is a **suite of independently installable packages**: the core
-`acmt001`, `acmt001-mcp`, and `acmt001-lsp` (all Python 3.10+),
-all sharing the `acmt001.services` layer.
+The **acmt001 suite** is a set of independently installable packages, each in
+its own repository (all Python 3.10+, all sharing the `acmt001.services` layer):
+
+| Package | Repository | Role |
+|---------|------------|------|
+| [`acmt001`](https://github.com/sebastienrousseau/acmt001) | this repo | Core library, CLI, and REST API |
+| [`acmt001-mcp`](https://github.com/sebastienrousseau/acmt001-mcp) | acmt001-mcp | Model Context Protocol server |
+| [`acmt001-lsp`](https://github.com/sebastienrousseau/acmt001-lsp) | acmt001-lsp | Language Server Protocol server |
 
 ## Development
 
