@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.2] - 2026-07-11
+
+The **security** cut. Raises the minimum versions of three dependencies to
+non-vulnerable releases so the library (and its downstream companions such as
+`acmt001-mcp`) resolve patched transitive dependencies. No API or functional
+changes; the full test suite (1015 tests, 99.89% coverage) passes unchanged.
+
+### Security
+
+- **cryptography** bumped from `>=44.0.1,<47.0.0` to `>=48.0.1,<50.0.0`
+  (resolves the vulnerable-OpenSSL-in-wheels advisory; not imported directly
+  by acmt001).
+- **pyarrow** bumped from `>=18.0.0,<19.0.0` to `>=23.0.1,<26.0.0`
+  (resolves the IPC pre-buffering use-after-free advisory; used only by the
+  optional Parquet loader, verified against pyarrow 25).
+- **pygments** unpinned from the exact `2.18.0` to `>=2.20.0,<3.0.0`
+  (resolves the GUID-matching ReDoS advisory; transitive via `rich`).
+
 ## [0.0.1] - 2026-06-16
 
 ### Added
