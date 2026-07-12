@@ -635,7 +635,7 @@ all [contributors][05].
 [06]: https://codecov.io/github/sebastienrousseau/acmt001?branch=main
 [07]: https://pypi.org/project/acmt001/
 [release-001]: https://github.com/sebastienrousseau/acmt001/releases/tag/v0.0.1
-[banner]: https://kura.pro/acmt001/images/banners/banner-acmt001.svg 'Acmt001'
+[banner]: https://cloudcdn.pro/acmt001/v1/logos/acmt001.svg 'Acmt001'
 [codecov-badge]: https://img.shields.io/codecov/c/github/sebastienrousseau/acmt001?style=for-the-badge
 [docs-badge]: https://img.shields.io/badge/Docs-acmt001.com-blue?style=for-the-badge
 [docs-url]: https://acmt001.com/
