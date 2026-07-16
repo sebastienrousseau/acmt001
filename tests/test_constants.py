@@ -34,7 +34,7 @@ def test_app_description_mentions_iso():
 
 
 def test_version():
-    assert VERSION == "0.0.2"
+    assert VERSION == "0.0.3"
 
 
 def test_base_dir_exists():
