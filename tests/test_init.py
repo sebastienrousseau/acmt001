@@ -5,7 +5,7 @@ import acmt001
 
 class TestPackageExports:
     def test_version(self):
-        assert acmt001.__version__ == "0.0.3"
+        assert acmt001.__version__ == "0.0.4"
 
     def test_all_names_present(self):
         for name in acmt001.__all__:

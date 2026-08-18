@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "acmt001"
-version = "0.0.3"
+version = "0.0.4"
 description = "Acmt001 is a Python Library for Automating ISO 20022 acmt Account Management (account opening, maintenance, and closing) XML Messages."
 authors = ["Sebastien Rousseau <sebastian.rousseau@gmail.com>"]
 license = "Apache-2.0"
@@ -28,7 +28,7 @@ pygments = ">=2.20.0,<3.0.0"
 python = ">=3.10,<4.0"
 rich = ">=13.7.1,<16"
 xmlschema = ">=3.4.0 <4.0.0"
-cryptography = ">=48.0.1,<50.0.0"
+cryptography = ">=48.0.1,<51.0.0"
 jsonschema = ">=4.20,<4.25"
 fastapi = ">=0.95"
 uvicorn = {version = ">=0.20", extras = ["standard"]}
@@ -38,6 +38,10 @@ pyarrow = ">=23.0.1,<26.0.0"
 # the acmt001-mcp companion package (which requires the MCP SDK / jsonschema>=4.20).
 
 [tool.poetry.group.dev.dependencies]
+packaging = ">=23.0"
+# `tomllib` is stdlib only from 3.11; the version guard test needs a
+# TOML reader on the oldest supported interpreter.
+tomli = { version = ">=2.0", python = "<3.11" }
 pytest = ">=9.0.3,<10.0.0"
 pytest-cov = ">=6.0.0,<8.0.0"
 pytest-benchmark = ">=5.0.0,<6.0.0"

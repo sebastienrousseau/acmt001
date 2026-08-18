@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.4] - 2026-08-18
+
+### Fixed
+
+- `cryptography` is now `>=48.0.1,<51.0.0`. The published `0.0.3` caps it
+  at `<50.0.0`, which makes `cryptography 50.0.0` — the release that
+  patches a high-severity advisory — unresolvable for this package and
+  everything that depends on it. `acmt001-mcp` inherits that ceiling and
+  cannot take the patched version while it stands.
+
+  The cap was precautionary rather than load-bearing: the full suite
+  passes unchanged on 50.0.0 (1015 tests, 99.89% coverage).
+
+### Added
+
+- `tests/test_package_version.py`, pinning `__version__` to
+  `pyproject.toml`, `constants.VERSION` and the newest `CHANGELOG.md`
+  heading, and asserting the `cryptography` constraint actually admits
+  50.0.0. Five files restate the version independently and nothing tied
+  them together.
+
 ## [0.0.3] - 2026-07-16
 
 The **co-install** cut. Relaxes the exact pins that prevented the ISO 20022
