@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.5] - 2026-08-28
+
+### Changed
+
+- **`xmlschema` moves to `>=4.3.2,<5.0.0`,** from `>=3.4.0 <4.0.0`.
+
+  The cap was the last thing in the suite holding xmlschema at 3.
+  `pain001` and `camt053` are both on 4, so `iso20022-mcp[all]` — which
+  installs this package alongside them — could not resolve at all: pip
+  reported `ResolutionImpossible` rather than anything that named the
+  cause.
+
+  No source change was needed. This package touches exactly two names
+  from the library, `xmlschema.XMLSchema` and
+  `xmlschema.XMLSchemaException`, and both are unchanged across the
+  major. The full suite passes on 4.3.2 (1020 tests, 99.89% coverage).
+
+- **`constants.VERSION` and `__version__` are no longer asserted against
+  a hand-edited literal.** Two tests pinned the string `"0.0.4"`, so
+  every release failed them until someone edited the number — churn that
+  checked nothing, because `test_package_version.py` already ties all
+  five restatements of the version together. They now compare against
+  the package and against the semver shape.
+
+### Added
+
+- A floor test for the `xmlschema` constraint, mirroring the
+  `cryptography` one. An upper cap that excludes the version a sibling
+  package requires is invisible until a dependent tries to install both,
+  and then it surfaces as an unexplained resolver failure.
+
 ## [0.0.4] - 2026-08-18
 
 ### Fixed

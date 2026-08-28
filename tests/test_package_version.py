@@ -144,3 +144,33 @@ def test_cryptography_constraint_admits_the_patched_release() -> None:
         f"the advisory — every dependent of this package would be unable "
         f"to install it"
     )
+
+
+def test_xmlschema_constraint_admits_the_version_the_suite_uses() -> None:
+    """The floor must admit what sibling packages already require.
+
+    `0.0.4` capped `xmlschema<4.0.0` while `pain001` and `camt053` had
+    moved to `>=4.3.2`. Nothing in this repository failed — the cap only
+    bites in a dependent that installs this package alongside them, and
+    there it surfaces as `ResolutionImpossible` with no indication of
+    which constraint is responsible.
+    """
+    from packaging.requirements import Requirement
+    from packaging.version import Version
+
+    with PYPROJECT.open("rb") as handle:
+        deps = tomllib.load(handle)["tool"]["poetry"]["dependencies"]
+
+    raw = deps["xmlschema"]
+    spec = raw if isinstance(raw, str) else raw["version"]
+    # Poetry accepts space-separated constraints (">=3.4.0 <4.0.0") as an
+    # implicit AND; PEP 440 does not. Normalise, or an unparseable spec
+    # raises here and the assertion message never gets a chance to explain
+    # what is actually wrong.
+    spec = ",".join(spec.split())
+    requirement = Requirement(f"xmlschema{spec}")
+
+    assert requirement.specifier.contains(Version("4.3.2")), (
+        f"xmlschema{spec} excludes 4.3.2, which pain001 and camt053 both "
+        f"require — iso20022-mcp[all] cannot resolve while that holds"
+    )
