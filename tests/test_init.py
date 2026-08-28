@@ -1,11 +1,16 @@
 """Tests for the acmt001 package public exports."""
 
+import re
+
 import acmt001
 
 
 class TestPackageExports:
     def test_version(self):
-        assert acmt001.__version__ == "0.0.4"
+        # A literal here has to be edited on every release; the shape of
+        # the number is what this test is actually for, and
+        # test_package_version.py checks it against pyproject.toml.
+        assert re.fullmatch(r"\d+\.\d+\.\d+", acmt001.__version__)
 
     def test_all_names_present(self):
         for name in acmt001.__all__:

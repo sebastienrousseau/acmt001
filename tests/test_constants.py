@@ -34,7 +34,12 @@ def test_app_description_mentions_iso():
 
 
 def test_version():
-    assert VERSION == "0.0.4"
+    # Deliberately not a literal: it would need hand-editing on every
+    # release, and test_package_version.py already ties all five
+    # restatements of the number together.
+    import acmt001
+
+    assert VERSION == acmt001.__version__
 
 
 def test_base_dir_exists():
