@@ -1,6 +1,6 @@
 """The Python acmt001 module."""
 
-__version__ = "0.0.5"
+__version__ = "0.0.9"
 
 from acmt001.__main__ import main
 from acmt001.core.core import process_files

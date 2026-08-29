@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.9] - 2026-08-29
+
+Aligns the `acmt001` suite on one version number, and adds the two gates
+that were missing: a benchmark and a scheduled drift check.
+
+### Added
+
+- `benches/bench_generate_xml.py` measures what an acmt message costs to
+  build. It reports output size beside the timings because the two are
+  easy to confuse: handing many rows to a single-account message type
+  makes the per-row cost fall while the output stays one message, which
+  reads as a batching win and is the opposite.
+- `scripts/check_suite_consistency.py` and a scheduled `Suite
+  Consistency` workflow compare this tree, and every published member of
+  the suite, against PyPI. A member left a release behind still installs
+  and still passes its own tests; only the index disagrees, and only if
+  somebody looks.
+- `tests/test_suite_conformance.py`, the shared suite conformance gate.
+- `SECURITY.md`, which the conformance gate requires and this repository
+  did not ship.
+
+### Changed
+
+- Version aligned to `0.0.9` across `acmt001`, `acmt001-lsp` and
+  `acmt001-mcp`. These three ship as one suite and had drifted to
+  `0.0.5`, `0.0.2` and `0.0.8` respectively.
+
 ## [0.0.5] - 2026-08-28
 
 ### Changed

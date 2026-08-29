@@ -38,6 +38,7 @@ maintain, close, switch, and verify bank accounts from plain data files.
 - [Output Files](#output-files)
 - [Architecture](#architecture)
 - [Development](#development)
+- [Benchmarks](#benchmarks)
 - [Troubleshooting](#troubleshooting)
 - [Documentation](#documentation)
 - [Licence](#licence)
@@ -599,6 +600,37 @@ make test         # pytest with coverage (gate: 99%)
 make lint         # ruff + black
 make type-check   # mypy --strict
 ```
+
+## Benchmarks
+
+`benches/bench_generate_xml.py` measures what an acmt message actually
+costs to build, and is wired into CI so it fails the build if it stops
+compiling against the current API.
+
+```bash
+python benches/bench_generate_xml.py           # full run
+python benches/bench_generate_xml.py --quick   # what CI runs
+python benches/bench_generate_xml.py --json    # machine-readable
+```
+
+It reports two things worth knowing before you size a deployment.
+
+**The XSD is compiled once per process, not once per message.** The
+first message pays for schema compilation and later ones do not — on a
+2026 laptop roughly 100–200 ms against 2–4 ms, a factor of fifty or
+more. A service that generates one message per process pays that cost
+every single time, and looks slow for a reason that has nothing to do
+with the message.
+
+**Only some message types batch.** `_build_context` puts the first row
+at the top level and also exposes every row as `records`; whether the
+extra rows reach the output is the template's decision. Seven of the
+thirty-four templates iterate `records`. The other twenty-seven describe
+a single account and ignore the rest — so passing five hundred accounts
+to `acmt.007.001.05` returns one message, not five hundred, and no
+error. The benchmark prints output size next to the timings precisely
+because the per-row cost falls either way; flat bytes is what tells you
+the rows were dropped rather than rendered.
 
 ## Troubleshooting
 
