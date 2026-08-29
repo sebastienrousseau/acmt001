@@ -36,6 +36,13 @@ jobs:
       - name: Run tests
         run: poetry run pytest tests/ -v --tb=short
 
+      # Not a timing gate -- wall-clock is not comparable between
+      # runners. This proves the benchmark still runs against the
+      # current API rather than rotting into a file that reads as
+      # verified and is not.
+      - name: Run the benchmark
+        run: poetry run python benches/bench_generate_xml.py --quick
+
       - name: Upload coverage
         if: matrix.python-version == '3.12' && matrix.os == 'ubuntu-latest'
         uses: codecov/codecov-action@v4
@@ -94,10 +101,10 @@ jobs:
         run: poetry install --no-interaction
 
       - name: Ruff check
-        run: poetry run ruff check acmt001/
+        run: poetry run ruff check acmt001/ benches/ scripts/
 
       - name: Black check
-        run: poetry run black --check acmt001/ tests/
+        run: poetry run black --check acmt001/ tests/ benches/ scripts/
 
       - name: Mypy
         run: poetry run mypy acmt001/
