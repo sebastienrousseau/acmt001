@@ -5,6 +5,50 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.12] - 2026-10-23
+
+Security and supply-chain hardening. The version moves from `0.0.9`
+straight to `0.0.12`, skipping `0.0.10` and `0.0.11`, so that `acmt001`,
+`acmt001-lsp` and `acmt001-mcp` ship one number again: `acmt001-mcp`
+already published `0.0.11`.
+
+### Security
+
+- **`cryptography` is floored at `>=50.0.0`** (PYSEC-2026-3552), so no
+  affected release can resolve under this package.
+- The development and CI toolchain is floored past published
+  advisories: `black ^26.10.1` (CVE-2026-114134), and `anyio`,
+  `opentelemetry-api`, `certifi`, `urllib3` and, in the optional docs
+  group, `soupsieve`, wherever they resolve.
+
+### Fixed
+
+- `validate_via_xsd` and `validate_xml_string_via_xsd` return `False`
+  for a document carrying a DTD or entity declaration, as documented,
+  instead of letting defusedxml's refusal escape as an exception. The
+  refusal itself is unchanged.
+
+### Added
+
+- Hash-pinned `requirements/*.txt` trees compiled with uv from
+  `requirements/*.in`; every install in CI and in the Dockerfile uses
+  them.
+- CodeQL, OpenSSF Scorecard, DCO, Atheris fuzzing, a version-sources
+  check, bandit and pip-audit workflows.
+- Release provenance: SLSA build attestations, keyless signatures, PEP
+  740 attestations on PyPI, and CycloneDX and SPDX SBOMs on the GitHub
+  release.
+- A complexity gate (cyclomatic 10, cognitive 15, Halstead difficulty
+  30, 60 lines per function, 500 per file) against a committed baseline
+  that may only shrink.
+
+### Changed
+
+- Version aligned to `0.0.12` across the suite.
+- The Poetry dev group mirrors what CI installs; unused tools are
+  dropped.
+- The README badge row follows the suite's single style.
+
 ## [0.0.9] - 2026-08-29
 
 Aligns the `acmt001` suite on one version number, and adds the two gates

@@ -1,0 +1,81 @@
+{
+  "acmt001/__main__.py::main": {
+    "lines": 71
+  },
+  "acmt001/api/app.py": {
+    "file_lines": 808
+  },
+  "acmt001/api/app.py::_process_generation_job": {
+    "lines": 90
+  },
+  "acmt001/api/app.py::generate_xml_sync": {
+    "lines": 90
+  },
+  "acmt001/cli/cli.py::main": {
+    "lines": 122
+  },
+  "acmt001/compliance/swift_charset.py::cleanse_data_with_report": {
+    "cognitive": 23
+  },
+  "acmt001/core/core.py::_validate_inputs": {
+    "lines": 73
+  },
+  "acmt001/core/core.py::process_files": {
+    "lines": 80
+  },
+  "acmt001/csv/load_csv_data.py::load_csv_data": {
+    "lines": 68
+  },
+  "acmt001/csv/load_csv_data.py::load_csv_data_streaming": {
+    "lines": 85
+  },
+  "acmt001/data/loader.py::load_account_data": {
+    "lines": 65
+  },
+  "acmt001/data/loader.py::load_account_data_streaming": {
+    "lines": 64
+  },
+  "acmt001/db/load_db_data.py::load_db_data": {
+    "lines": 78
+  },
+  "acmt001/db/load_db_data_streaming.py::load_db_data_streaming": {
+    "lines": 90
+  },
+  "acmt001/json/load_json_data.py::load_json_data": {
+    "lines": 73
+  },
+  "acmt001/json/load_json_data.py::load_jsonl_data": {
+    "lines": 67
+  },
+  "acmt001/json/load_json_data.py::load_jsonl_data_streaming": {
+    "cyclomatic": 11,
+    "lines": 77
+  },
+  "acmt001/logging_schema.py": {
+    "file_lines": 1070
+  },
+  "acmt001/logging_schema.py::_redact_pii_from_dict": {
+    "cognitive": 24,
+    "cyclomatic": 15,
+    "lines": 64
+  },
+  "acmt001/logging_schema.py::configure_json_logging": {
+    "lines": 89
+  },
+  "acmt001/validation/bic_validator.py::validate_bic_format": {
+    "cyclomatic": 14,
+    "lines": 76
+  },
+  "acmt001/validation/iban_validator.py::validate_iban_format": {
+    "cyclomatic": 11,
+    "lines": 69
+  },
+  "acmt001/validation/service.py::ValidationService.validate_all": {
+    "cyclomatic": 13,
+    "lines": 95
+  },
+  "acmt001/xml/write_xml_to_file.py::indent_xml": {
+    "cognitive": 18,
+    "cyclomatic": 12
+  }
+}

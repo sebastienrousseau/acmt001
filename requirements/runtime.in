@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# Runtime dependencies of acmt001, mirroring [tool.poetry.dependencies]
+# in pyproject.toml. Hash-pinned in runtime.txt so the release SBOM
+# installs nothing unpinned (OpenSSF Scorecard Pinned-Dependencies); the
+# package itself goes on with --no-deps.
+# Regenerate with: make pip-compile
+click>=8.1,<9
+colorama==0.4.6
+defusedxml==0.7.1
+jinja2==3.1.6
+markupsafe>=2.1.5,<4
+pygments>=2.20.0,<3.0.0
+rich>=13.7.1,<16
+xmlschema>=4.3.2,<5.0.0
+# cryptography: PYSEC-2026-3552 (GHSA-g6cj-pr64-35w5) is fixed in 50.0.0.
+cryptography>=50.0.0,<51.0.0
+jsonschema>=4.20,<4.25
+fastapi>=0.95
+uvicorn[standard]>=0.20
+httpx>=0.23
+pyarrow>=23.0.1,<26.0.0
+# Advisory floors for transitive dependencies, so no affected version can
+# resolve: anyio PYSEC-2026-4023/4024/4025 (via httpx and starlette),
+# opentelemetry-api GHSA-xcq7-p3pf-p88h (via fastapi), certifi
+# PYSEC-2026-4320 (GHSA-6q48-6c7w-9gw2, via httpx).
+anyio>=4.14.2
+opentelemetry-api>=1.45.1
+certifi>=2026.10.19
