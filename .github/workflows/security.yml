@@ -13,7 +13,8 @@ permissions:
 
 jobs:
   bandit:
-    name: Bandit (static analysis)
+    # Branch protection on main requires this check by name.
+    name: Security Scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
