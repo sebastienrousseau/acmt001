@@ -47,6 +47,9 @@ type-check: ## Run mypy type checking
 security: ## Run security scan (bandit)
 	$(PY) -m bandit -r $(PKG)/ -c pyproject.toml
 
+complexity: ## Per-function complexity ceilings against complexity-baseline.json
+	$(PY) scripts/check_complexity.py
+
 verify-versions: ## Every restatement of the version agrees with pyproject.toml
 	$(PY) scripts/verify_versions.py
 
@@ -87,7 +90,7 @@ docker: ## Build Docker image
 docker-run: ## Run Docker container
 	docker run -p 8000:8000 acmt001:latest
 
-check: lint type-check security verify-versions test examples bench ## Run every gate CI runs on a pull request
+check: lint type-check security complexity verify-versions test examples bench ## Run every gate CI runs on a pull request
 
 clean: ## Remove build artifacts and caches
 	rm -rf build/ dist/ *.egg-info .eggs/
