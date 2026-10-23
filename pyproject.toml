@@ -28,7 +28,8 @@ pygments = ">=2.20.0,<3.0.0"
 python = ">=3.10,<4.0"
 rich = ">=13.7.1,<16"
 xmlschema = ">=4.3.2,<5.0.0"
-cryptography = ">=48.0.1,<51.0.0"
+# PYSEC-2026-3552 (GHSA-g6cj-pr64-35w5) is fixed in cryptography 50.0.0.
+cryptography = ">=50.0.0,<51.0.0"
 jsonschema = ">=4.20,<4.25"
 fastapi = ">=0.95"
 uvicorn = {version = ">=0.20", extras = ["standard"]}
@@ -38,6 +39,7 @@ pyarrow = ">=23.0.1,<26.0.0"
 # the acmt001-mcp companion package (which requires the MCP SDK / jsonschema>=4.20).
 
 [tool.poetry.group.dev.dependencies]
+# Mirrors requirements/ci.in, the hash-pinned set CI installs.
 packaging = ">=23.0"
 # `tomllib` is stdlib only from 3.11; the version guard test needs a
 # TOML reader on the oldest supported interpreter.
@@ -46,28 +48,15 @@ pytest = ">=9.0.3,<10.0.0"
 pytest-cov = ">=6.0.0,<8.0.0"
 pytest-benchmark = ">=5.0.0,<6.0.0"
 pytest-xdist = ">=3.6.0,<4.0.0"
-black = "^26.3.1"
-flake8 = "^7.0.0"
-isort = "^5.13.0"
-mypy = "^1.11.0"
-pylint = "^3.0.0"
-bandit = "^1.7.0"
-safety = "^2.3.0"
-ruff = "^0.1.0"
-types-defusedxml = "^0.7.0"
-diff-cover = "^8.0.0"
-types-setuptools = "^65.0.0"
-radon = "^5.1.0"
-mutmut = "^2.4.0"
-hypothesis = "^6.0.0"
-memory-profiler = "^0.60.0"
-sphinx = "^7.0.0"
-sphinx-rtd-theme = "^1.0.0"
-sphinx-autodoc-typehints = "^1.0.0"
-pip-licenses = "^4.0.0"
-twine = "^6.2.0"
-types-jsonschema = "^4.26.0.20260109"
-pandas = "^2.3.3"
+# CVE-2026-114134 (GHSA-cg8m-r9f2-5wm2) is fixed in black 26.10.1.
+black = "^26.10.1"
+ruff = ">=0.1,<0.18"
+mypy = ">=1.11,<3"
+bandit = ">=1.7.0,<2"
+types-defusedxml = ">=0.7"
+types-jsonschema = ">=4.26.0.20260109"
+radon = ">=6.0.1,<7"
+complexipy = { version = ">=8.1,<9", python = "<3.16" }
 
 [tool.poetry.group.docs]
 optional = true
@@ -78,6 +67,9 @@ pydata-sphinx-theme = "^0.15.0"
 sphinx-autodoc-typehints = "^1.0.0"
 sphinx-design = "^0.6.0"
 myst-parser = "^2.0.0"
+# pydata-sphinx-theme reaches soupsieve through beautifulsoup4;
+# PYSEC-2026-4170/4171 (GHSA-gjv8-xp57-g29c) are fixed in 2.9.0.
+soupsieve = ">=2.9.0"
 
 [build-system]
 requires = ["poetry-core"]
