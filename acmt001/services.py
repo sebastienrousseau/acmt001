@@ -31,11 +31,7 @@ Example:
 import json
 from typing import Any
 
-# acmt001-mcp 0.0.11 reads the identifier kinds from
-# services._IDENTIFIER_VALIDATORS at import time, so the name stays here.
-from acmt001._service_ops import (
-    _IDENTIFIER_VALIDATORS as _IDENTIFIER_VALIDATORS,
-)
+from acmt001 import _service_ops
 from acmt001._service_ops import (
     generate,
     get_input_schema,
@@ -53,6 +49,17 @@ __all__ = [
     "validate_records",
     "validate_identifier",
 ]
+
+
+def __getattr__(name: str) -> Any:
+    """Serve names that moved to :mod:`acmt001._service_ops`.
+
+    acmt001-mcp 0.0.11 reads ``services._IDENTIFIER_VALIDATORS`` at import
+    time, so the name must still resolve here.
+    """
+    if name == "_IDENTIFIER_VALIDATORS":
+        return _service_ops._IDENTIFIER_VALIDATORS
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
 def load_openapi(app: Any | None = None) -> str:

@@ -143,3 +143,7 @@ class TestDownstreamNames:
     )
     def test_public_function(self, name):
         assert callable(getattr(services, name))
+
+    def test_unknown_name_still_raises(self):
+        with pytest.raises(AttributeError, match="no_such_name"):
+            _ = services.no_such_name
