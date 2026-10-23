@@ -75,6 +75,20 @@ class TestValidatePath:
         with pytest.raises(SecurityError, match="escapes base directory"):
             validate_path(str(other / "x.txt"), base_dir=str(base))
 
+    def test_base_dir_itself_allowed(self, tmp_path):
+        base = tmp_path / "base"
+        base.mkdir()
+        result = validate_path(str(base), base_dir=str(base))
+        assert result == os.path.realpath(base)
+
+    def test_base_dir_prefix_sibling_rejected(self, tmp_path):
+        base = tmp_path / "base"
+        base.mkdir()
+        sibling = tmp_path / "basement"
+        sibling.mkdir()
+        with pytest.raises(SecurityError, match="escapes base directory"):
+            validate_path(str(sibling / "x.txt"), base_dir=str(base))
+
     def test_accepts_pathlib_path(self, tmp_path, monkeypatch):
         monkeypatch.chdir(tmp_path)
         test_file = tmp_path / "p.txt"

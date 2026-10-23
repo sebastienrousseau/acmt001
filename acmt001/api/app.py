@@ -26,7 +26,7 @@ from typing import Any
 from fastapi import FastAPI, HTTPException, status
 from fastapi.responses import FileResponse, HTMLResponse
 
-from acmt001 import __version__, services
+from acmt001 import __version__, _service_ops
 from acmt001.api.job_manager import JobStatus, job_manager
 from acmt001.api.models import (
     GenerateXMLRequest,
@@ -322,7 +322,7 @@ async def list_message_types() -> list[dict[str, str]]:
     Returns:
         A list of ``{"message_type": ..., "name": ...}`` dictionaries.
     """
-    return services.list_message_types()
+    return _service_ops.list_message_types()
 
 
 @app.get(
@@ -343,7 +343,7 @@ async def get_message_type_schema(message_type: str) -> dict[str, Any]:
         HTTPException: 404 if the message type is unsupported.
     """
     try:
-        return services.get_input_schema(message_type)
+        return _service_ops.get_input_schema(message_type)
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -371,7 +371,7 @@ async def validate_identifier(
         HTTPException: 400 if the identifier kind is unsupported.
     """
     try:
-        return services.validate_identifier(request.kind, request.value)
+        return _service_ops.validate_identifier(request.kind, request.value)
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
