@@ -76,7 +76,6 @@ fuzz: ## Atheris for FUZZ_SECONDS (default 60); Linux x86_64, needs requirements
 
 examples: ## Run every example end-to-end
 	@for e in examples/*.py; do echo "--- $$e ---"; $(PY) "$$e" || exit 1; done
-	@rm -f acmt.007.001.05.xml output_acmt001.xml
 
 bench: ## The benchmark in quick mode (what CI runs)
 	$(PY) benches/bench_generate_xml.py --quick
