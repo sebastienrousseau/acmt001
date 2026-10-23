@@ -48,6 +48,14 @@ already published `0.0.11`.
 - The Poetry dev group mirrors what CI installs; unused tools are
   dropped.
 - The README badge row follows the suite's single style.
+- The service functions live in `acmt001._service_ops`, which the REST
+  API imports directly; `acmt001.services` re-exports them unchanged, so
+  `services.load_openapi()` no longer forms an import cycle with
+  `acmt001.api.app`.
+- `validate_path` returns the resolved path it checked, rather than one
+  rebuilt from the allowed base. The result is the same.
+- The optional docs group accepts `myst-parser` up to 4 and
+  `sphinx-autodoc-typehints` up to 2.
 
 ## [0.0.9] - 2026-08-29
 
