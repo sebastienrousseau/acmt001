@@ -54,8 +54,11 @@ already published `0.0.11`.
   `acmt001.api.app`.
 - `validate_path` returns the resolved path it checked, rather than one
   rebuilt from the allowed base. The result is the same.
-- The optional docs group accepts `myst-parser` up to 4 and
-  `sphinx-autodoc-typehints` up to 2.
+- The optional docs group accepts `myst-parser` up to 4,
+  `sphinx-autodoc-typehints` up to 2 and `pydata-sphinx-theme` up to
+  0.17.
+- `jsonschema` is accepted up to 4.26 (the `<4.25` cap kept Python 3.9,
+  which is no longer supported); the hash-pinned trees move to 4.26.0.
 
 ## [0.0.9] - 2026-08-29
 
