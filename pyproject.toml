@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "acmt001"
-version = "0.0.12"
+version = "0.0.13"
 description = "Acmt001 is a Python Library for Automating ISO 20022 acmt Account Management (account opening, maintenance, and closing) XML Messages."
 authors = ["Sebastien Rousseau <sebastian.rousseau@gmail.com>"]
 license = "Apache-2.0 OR MIT"
