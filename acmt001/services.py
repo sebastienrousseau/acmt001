@@ -31,6 +31,11 @@ Example:
 import json
 from typing import Any
 
+# acmt001-mcp 0.0.11 reads the identifier kinds from
+# services._IDENTIFIER_VALIDATORS at import time, so the name stays here.
+from acmt001._service_ops import (
+    _IDENTIFIER_VALIDATORS as _IDENTIFIER_VALIDATORS,
+)
 from acmt001._service_ops import (
     generate,
     get_input_schema,

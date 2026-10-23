@@ -113,3 +113,33 @@ class TestLoadOpenapi:
 
         doc = json.loads(services.load_openapi(app))
         assert "paths" in doc
+
+
+class TestDownstreamNames:
+    """Names acmt001-lsp and acmt001-mcp read from ``acmt001.services``."""
+
+    def test_identifier_validators_for_acmt001_mcp(self):
+        # acmt001-mcp 0.0.11 runs this at import time.
+        assert sorted(services._IDENTIFIER_VALIDATORS) == [
+            "bic",
+            "iban",
+            "lei",
+        ]
+        assert all(
+            callable(v) for v in services._IDENTIFIER_VALIDATORS.values()
+        )
+
+    @pytest.mark.parametrize(
+        "name",
+        [
+            "generate",
+            "get_input_schema",
+            "get_required_fields",
+            "list_message_types",
+            "load_openapi",
+            "validate_identifier",
+            "validate_records",
+        ],
+    )
+    def test_public_function(self, name):
+        assert callable(getattr(services, name))
