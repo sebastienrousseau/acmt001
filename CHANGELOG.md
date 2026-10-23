@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.13] - 2026-10-23
+
+A hotfix for `0.0.12`, which is yanked from PyPI. `acmt001-lsp` and
+`acmt001-mcp` ship `0.0.13` with it, so the suite keeps one version.
+
+### Fixed
+
+- `acmt001.services._IDENTIFIER_VALIDATORS` is back. `0.0.12` moved it
+  to `acmt001._service_ops`, and `acmt001-mcp 0.0.11` reads it from
+  `acmt001.services` at import time, so `pip install acmt001-mcp`
+  resolved `acmt001 0.0.12` and the server failed to start with
+  `AttributeError`. A test now pins every name `acmt001-lsp` and
+  `acmt001-mcp` read from `acmt001.services`.
+
 ## [0.0.12] - 2026-10-23
 
 Security and supply-chain hardening. The version moves from `0.0.9`

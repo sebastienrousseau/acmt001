@@ -14,7 +14,7 @@
 **Enterprise-grade ISO 20022 account-management message generation** — open,
 maintain, close, switch, and verify bank accounts from plain data files.
 
-> **Latest release: v0.0.12.** 34 ISO 20022 `acmt` message types,
+> **Latest release: v0.0.13.** 34 ISO 20022 `acmt` message types,
 > IBAN/BIC/LEI validation, charset compliance, a Click CLI, and a FastAPI
 > REST API. [See what's new][release-latest]
 
@@ -663,5 +663,5 @@ all [contributors][05].
 [01]: https://opensource.org/license/apache-2-0/
 [04]: https://github.com/sebastienrousseau/acmt001/blob/main/CONTRIBUTING.md
 [05]: https://github.com/sebastienrousseau/acmt001/graphs/contributors
-[release-latest]: https://github.com/sebastienrousseau/acmt001/releases/tag/v0.0.12
+[release-latest]: https://github.com/sebastienrousseau/acmt001/releases/tag/v0.0.13
 [banner]: https://cloudcdn.pro/acmt001/v1/logos/acmt001.svg 'Acmt001'
