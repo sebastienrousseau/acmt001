@@ -52,19 +52,16 @@ pip install poetry
    git checkout -b feat/my-feature
    ```
 3. **Make changes** — follow the coding standards below
-4. **Run tests** — ensure 99%+ coverage:
+4. **Run every gate CI runs** (tests at 99%+ coverage, ruff, black,
+   mypy, bandit, the version check, examples and the benchmark), from
+   the same hash-pinned requirements CI installs:
    ```bash
-   poetry run pytest tests/ -v
+   make install
+   make check
    ```
-5. **Run linters**:
+6. **Sign off, sign and commit**:
    ```bash
-   poetry run ruff check acmt001/
-   poetry run mypy acmt001/
-   poetry run black --check acmt001/ tests/
-   ```
-6. **Sign and commit**:
-   ```bash
-   git commit -S -m "feat: add my feature"
+   git commit -s -S -m "feat: add my feature"
    ```
 7. **Push** and open a pull request
 
@@ -79,6 +76,13 @@ git config --global gpg.format ssh
 git config --global user.signingkey ~/.ssh/id_ed25519
 git config --global commit.gpgsign true
 ```
+
+### Developer Certificate of Origin
+
+Every commit in a pull request carries a `Signed-off-by:` trailer, which
+the DCO workflow checks. It certifies that you have the right to submit
+the work under this project's licence; [`DCO.txt`](DCO.txt) says what
+you are certifying. `git commit -s` adds it.
 
 ### Commit Message Format
 

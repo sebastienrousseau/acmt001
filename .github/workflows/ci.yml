@@ -20,112 +20,92 @@ jobs:
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install Poetry
-        run: pip install poetry
-
-      - name: Install dependencies
-        run: poetry install --no-interaction
+      # Hash-pinned install (OpenSSF Scorecard Pinned-Dependencies). The
+      # package goes on with --no-deps on top of the pinned tree, and
+      # without build isolation so poetry-core comes from that tree too.
+      - name: Install dependencies (hash-pinned)
+        run: |
+          python -m pip install --require-hashes -r requirements/ci.txt
+          python -m pip install --no-deps --no-build-isolation -e .
 
       - name: Run tests
-        run: poetry run pytest tests/ -v --tb=short
+        run: python -m pytest tests/ -v --tb=short
 
       # Not a timing gate -- wall-clock is not comparable between
       # runners. This proves the benchmark still runs against the
       # current API rather than rotting into a file that reads as
       # verified and is not.
       - name: Run the benchmark
-        run: poetry run python benches/bench_generate_xml.py --quick
+        run: python benches/bench_generate_xml.py --quick
 
-      - name: Upload coverage
+      - name: Upload coverage XML
         if: matrix.python-version == '3.12' && matrix.os == 'ubuntu-latest'
-        uses: codecov/codecov-action@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          files: coverage.xml
-          fail_ci_if_error: false
+          name: coverage-xml
+          path: coverage.xml
 
   smoke:
     name: Smoke Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
 
-      - name: Install Poetry
-        run: pip install poetry
-
-      - name: Install dependencies
-        run: poetry install --no-interaction
+      - name: Install dependencies (hash-pinned)
+        run: |
+          python -m pip install --require-hashes -r requirements/ci.txt
+          python -m pip install --no-deps --no-build-isolation -e .
 
       - name: Run smoke tests
-        run: poetry run pytest tests/ -m smoke -v --no-cov --tb=short
+        run: python -m pytest tests/ -m smoke -v --no-cov --tb=short
 
       - name: Verify examples
         run: |
-          poetry run python examples/generate_xml.py
-          poetry run python examples/account_management.py
-          poetry run python examples/services_facade.py
-          poetry run python examples/validate_identifiers.py
-          poetry run python examples/validation_service.py
-          poetry run python examples/compliance_cleansing.py
-          poetry run python examples/all_message_types.py
-          poetry run python examples/data_sources.py
-          poetry run python examples/rest_api_client.py
+          for example in examples/*.py; do
+            echo "--- $example ---"
+            python "$example"
+          done
 
   lint:
     name: Lint & Type Check
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
 
-      - name: Install Poetry
-        run: pip install poetry
-
-      - name: Install dependencies
-        run: poetry install --no-interaction
+      - name: Install dependencies (hash-pinned)
+        run: |
+          python -m pip install --require-hashes -r requirements/ci.txt
+          python -m pip install --no-deps --no-build-isolation -e .
 
       - name: Ruff check
-        run: poetry run ruff check acmt001/ benches/ scripts/
+        run: ruff check acmt001/ tests/ benches/ scripts/ examples/ fuzz/ conftest.py
 
       - name: Black check
-        run: poetry run black --check acmt001/ tests/ benches/ scripts/
+        run: black --check acmt001/ tests/ benches/ scripts/ examples/ fuzz/ conftest.py
 
       - name: Mypy
-        run: poetry run mypy acmt001/
-
-  security:
-    name: Security Scan
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install Poetry
-        run: pip install poetry
-
-      - name: Install dependencies
-        run: poetry install --no-interaction
-
-      - name: Bandit
-        run: poetry run bandit -r acmt001/ -c pyproject.toml || poetry run bandit -r acmt001/ -s B101
+        run: mypy acmt001/

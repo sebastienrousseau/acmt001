@@ -1,51 +1,85 @@
-.PHONY: help install dev test lint format type-check security clean docs docker smoke examples
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# Convenience targets for acmt001.
+#
+# Every gate runs what CI runs, from the same hash-pinned requirements.
+# `make install` builds that environment in .venv.
 
-PYTHON ?= python3
-POETRY ?= poetry
+PY ?= .venv/bin/python
+PKG := acmt001
+
+.PHONY: help install test test-fast test-parallel smoke lint format type-check security complexity verify-versions audit pip-compile fuzz examples bench docs docker docker-run check clean
 
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
-install: ## Install production dependencies
-	$(POETRY) install --only main
+install: ## Create/refresh .venv from the hash-pinned CI tree
+	python3 -m venv .venv
+	$(PY) -m pip install --require-hashes -r requirements/ci.txt
+	$(PY) -m pip install --no-deps --no-build-isolation -e .
 
-dev: ## Install all dependencies (including dev)
-	$(POETRY) install
-
-test: ## Run tests with coverage
-	$(POETRY) run pytest tests/ -v
+test: ## Run tests with the coverage gate
+	$(PY) -m pytest tests/ -v
 
 test-fast: ## Run tests without coverage (faster)
-	$(POETRY) run pytest tests/ -v --no-cov
+	$(PY) -m pytest tests/ -v --no-cov
 
 test-parallel: ## Run tests in parallel
-	$(POETRY) run pytest tests/ -v -n auto
+	$(PY) -m pytest tests/ -v -n auto
 
-lint: ## Run linters (ruff + black check)
-	$(POETRY) run ruff check acmt001/ tests/
-	$(POETRY) run black --check acmt001/ tests/
+smoke: ## Run smoke tests only
+	$(PY) -m pytest tests/ -m smoke -v --no-cov
+
+# Same paths CI lints, so a green `make lint` means a green lint job.
+LINT_PATHS := $(PKG) tests benches scripts examples fuzz conftest.py
+
+lint: ## Ruff lint and black format check (what CI runs)
+	$(PY) -m ruff check $(LINT_PATHS)
+	$(PY) -m black --check $(LINT_PATHS)
 
 format: ## Auto-format code (ruff fix + black)
-	$(POETRY) run ruff check --fix acmt001/ tests/
-	$(POETRY) run black acmt001/ tests/
+	$(PY) -m ruff check --fix $(LINT_PATHS)
+	$(PY) -m black $(LINT_PATHS)
 
 type-check: ## Run mypy type checking
-	$(POETRY) run mypy acmt001/
+	$(PY) -m mypy $(PKG)/
 
 security: ## Run security scan (bandit)
-	$(POETRY) run bandit -r acmt001/ -c pyproject.toml 2>/dev/null || \
-		$(POETRY) run bandit -r acmt001/ -ll
+	$(PY) -m bandit -r $(PKG)/ -c pyproject.toml
 
-clean: ## Remove build artifacts and caches
-	rm -rf build/ dist/ *.egg-info .eggs/
-	rm -rf .pytest_cache/ .mypy_cache/ .ruff_cache/ htmlcov/
-	rm -rf coverage.xml .coverage
-	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
-	find . -type f -name '*.pyc' -delete 2>/dev/null || true
+verify-versions: ## Every restatement of the version agrees with pyproject.toml
+	$(PY) scripts/verify_versions.py
 
-docs: ## Build Sphinx documentation
-	$(POETRY) run sphinx-build -b html docs/ docs/_build/html
+audit: ## pip-audit every hash-pinned requirements file (needs pip-audit)
+	@for f in requirements/*.txt; do \
+		echo "--- $$f"; \
+		pip-audit --progress-spinner off --require-hashes --disable-pip -r "$$f" || exit 1; \
+	done
+
+pip-compile: ## Regenerate hash-pinned requirements/*.txt from requirements/*.in (needs uv)
+	@command -v uv >/dev/null || { echo "uv is required: https://docs.astral.sh/uv/"; exit 1; }
+	@for f in requirements/*.in; do \
+		[ "$$f" = requirements/fuzz.in ] && continue; \
+		echo "compiling $$f"; \
+		uv pip compile --quiet --generate-hashes --universal \
+			--python-version 3.10 "$$f" -o "$${f%.in}.txt"; \
+	done
+	@echo "compiling requirements/fuzz.in (Linux x86_64, Atheris wheels only)"
+	@uv pip compile --quiet --generate-hashes --python-platform x86_64-manylinux_2_17 \
+		--python-version 3.12 requirements/fuzz.in -o requirements/fuzz.txt
+
+fuzz: ## Atheris for FUZZ_SECONDS (default 60); Linux x86_64, needs requirements/fuzz.txt
+	$(PY) fuzz/fuzz_inputs.py fuzz/corpus -max_total_time=$(or $(FUZZ_SECONDS),60)
+
+examples: ## Run every example end-to-end
+	@for e in examples/*.py; do echo "--- $$e ---"; $(PY) "$$e" || exit 1; done
+	@rm -f acmt.007.001.05.xml output_acmt001.xml
+
+bench: ## The benchmark in quick mode (what CI runs)
+	$(PY) benches/bench_generate_xml.py --quick
+
+docs: ## Build Sphinx documentation (needs the Poetry docs group)
+	poetry run sphinx-build -b html docs/ docs/_build/html
 
 docker: ## Build Docker image
 	docker build -t acmt001:latest .
@@ -53,12 +87,11 @@ docker: ## Build Docker image
 docker-run: ## Run Docker container
 	docker run -p 8000:8000 acmt001:latest
 
-smoke: ## Run smoke tests only
-	$(POETRY) run pytest tests/ -m smoke -v --no-cov
+check: lint type-check security verify-versions test examples bench ## Run every gate CI runs on a pull request
 
-examples: ## Verify example scripts run
-	$(POETRY) run python examples/generate_xml.py
-	$(POETRY) run python examples/account_management.py
-	@rm -f acmt.007.001.05.xml output_acmt001.xml
-
-check: lint type-check security test examples ## Run all checks
+clean: ## Remove build artifacts and caches
+	rm -rf build/ dist/ *.egg-info .eggs/
+	rm -rf .pytest_cache/ .mypy_cache/ .ruff_cache/ htmlcov/
+	rm -rf coverage.xml .coverage
+	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+	find . -type f -name '*.pyc' -delete 2>/dev/null || true

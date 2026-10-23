@@ -1,0 +1,53 @@
+version: 2
+updates:
+  # pyproject.toml. requirements/*.txt are regenerated with
+  # `make pip-compile` from requirements/*.in rather than bumped one pin
+  # at a time, since a hash-pinned tree must be resolved as a whole.
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "sebastienrousseau"
+    labels:
+      - "dependencies"
+      - "automated"
+    commit-message:
+      prefix: "chore(deps):"
+      include: "scope"
+    allow:
+      - dependency-type: "direct"
+    ignore:
+      - dependency-name: "python"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    reviewers:
+      - "sebastienrousseau"
+    labels:
+      - "ci/cd"
+      - "automated"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  # The Dockerfile pins python:3.12-slim by digest; this keeps the digest
+  # current.
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    reviewers:
+      - "sebastienrousseau"
+    labels:
+      - "dependencies"
+      - "docker"
+      - "automated"

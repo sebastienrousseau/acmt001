@@ -588,8 +588,7 @@ Acmt001 uses [Poetry](https://python-poetry.org/) and
 ```bash
 git clone https://github.com/sebastienrousseau/acmt001.git && cd acmt001
 mise install
-poetry install
-poetry shell
+make install      # .venv from the hash-pinned requirements/ci.txt
 ```
 
 A `Makefile` orchestrates the quality gates (kept in lockstep with CI):
