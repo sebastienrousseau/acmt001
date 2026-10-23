@@ -9,6 +9,8 @@ from acmt001.xml.validate_via_xsd import (
     validate_xml_string_via_xsd,
 )
 
+ENTITY_DOCUMENT = '<!DOCTYPE a [<!ENTITY e "x">]><a>&e;</a>'
+
 
 @pytest.fixture
 def valid_xml(sample_record, template_path, schema_path):
@@ -35,6 +37,11 @@ class TestValidateXmlStringViaXsd:
     def test_malformed_xml_string(self, schema_path):
         xsd = schema_path("acmt.001.001.08")
         assert validate_xml_string_via_xsd("not xml at all <<<", xsd) is False
+
+    def test_entity_declaration_is_invalid_not_raised(self, schema_path):
+        """defusedxml refuses entity declarations; the answer is False."""
+        xsd = schema_path("acmt.001.001.08")
+        assert validate_xml_string_via_xsd(ENTITY_DOCUMENT, xsd) is False
 
     def test_invalid_xsd_path(self):
         assert (
@@ -71,6 +78,14 @@ class TestValidateViaXsd:
         xsd = schema_path("acmt.001.001.08")
         xml_file = tmp_path / "malformed.xml"
         xml_file.write_text("not xml <<<", encoding="utf-8")
+        assert validate_via_xsd(str(xml_file), xsd) is False
+
+    def test_entity_declaration_in_file_is_invalid(
+        self, schema_path, tmp_path
+    ):
+        xsd = schema_path("acmt.001.001.08")
+        xml_file = tmp_path / "entity.xml"
+        xml_file.write_text(ENTITY_DOCUMENT, encoding="utf-8")
         assert validate_via_xsd(str(xml_file), xsd) is False
 
 
