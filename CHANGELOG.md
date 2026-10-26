@@ -15,6 +15,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   GHSA-567q-5qvw-pf92, GHSA-v4x8-3wr5-3wq8). The Python 3.10 split had
   pinned `filelock 4.1.0`; 4.2.1 needs Python 3.11.
 
+### Fixed
+
+- `validate_xml_string_via_xsd` and `validate_via_xsd` return `False`
+  for a date whose year the XSD date types cannot hold (for example
+  `222222222026-01-15T10:30:00`), instead of letting elementpath's
+  `OverflowError` escape. Generation reports it as its usual
+  `RuntimeError` for XML that fails validation.
+
 ## [0.0.13] - 2026-10-23
 
 A hotfix for `0.0.12`, which is yanked from PyPI. `acmt001-lsp` and

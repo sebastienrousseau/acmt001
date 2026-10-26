@@ -59,7 +59,9 @@ def validate_via_xsd(xml_file_path: str, xsd_file_path: str) -> bool:
     try:
         xsd.validate(xml_tree)
         return True
-    except xmlschema.XMLSchemaException as e:
+    # elementpath raises OverflowError for a year its date types cannot
+    # hold; to the caller that is an invalid document like any other.
+    except (xmlschema.XMLSchemaException, OverflowError) as e:
         print(f"Error validating XML: {e}")
         return False
 
@@ -102,6 +104,8 @@ def validate_xml_string_via_xsd(xml_content: str, xsd_file_path: str) -> bool:
     try:
         xsd.validate(xml_tree)
         return True
-    except xmlschema.XMLSchemaException as e:
+    # elementpath raises OverflowError for a year its date types cannot
+    # hold; to the caller that is an invalid document like any other.
+    except (xmlschema.XMLSchemaException, OverflowError) as e:
         print(f"Error validating XML: {e}")
         return False
