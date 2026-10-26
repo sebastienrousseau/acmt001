@@ -10,6 +10,9 @@ from acmt001.xml.validate_via_xsd import (
 )
 
 ENTITY_DOCUMENT = '<!DOCTYPE a [<!ENTITY e "x">]><a>&e;</a>'
+# A year the XSD date types cannot hold: elementpath raises OverflowError
+# for it instead of an XMLSchemaException (found by acmt001-mcp's fuzzer).
+OVERFLOW_YEAR = "222222222026-01-15T10:30:00"
 
 
 @pytest.fixture
@@ -21,6 +24,15 @@ def valid_xml(sample_record, template_path, schema_path):
         [sample_record], version, template_path(version), xsd
     )
     return xml, xsd
+
+
+@pytest.fixture
+def overflow_xml(valid_xml):
+    """Return (xml_string, xsd_path) whose CreDtTm year overflows."""
+    xml, xsd = valid_xml
+    start = xml.index("<CreDtTm>") + len("<CreDtTm>")
+    end = xml.index("</CreDtTm>", start)
+    return xml[:start] + OVERFLOW_YEAR + xml[end:], xsd
 
 
 class TestValidateXmlStringViaXsd:
@@ -48,6 +60,10 @@ class TestValidateXmlStringViaXsd:
             validate_xml_string_via_xsd("<root/>", "/nonexistent/schema.xsd")
             is False
         )
+
+    def test_year_overflow_is_invalid_not_raised(self, overflow_xml):
+        xml, xsd = overflow_xml
+        assert validate_xml_string_via_xsd(xml, xsd) is False
 
 
 class TestValidateViaXsd:
@@ -87,6 +103,24 @@ class TestValidateViaXsd:
         xml_file = tmp_path / "entity.xml"
         xml_file.write_text(ENTITY_DOCUMENT, encoding="utf-8")
         assert validate_via_xsd(str(xml_file), xsd) is False
+
+    def test_year_overflow_in_file_is_invalid(self, overflow_xml, tmp_path):
+        xml, xsd = overflow_xml
+        xml_file = tmp_path / "overflow.xml"
+        xml_file.write_text(xml, encoding="utf-8")
+        assert validate_via_xsd(str(xml_file), xsd) is False
+
+
+def test_generate_reports_year_overflow_as_validation_failure(
+    sample_record, template_path, schema_path
+):
+    """The generator raises its usual RuntimeError, not OverflowError."""
+    version = "acmt.001.001.08"
+    record = dict(sample_record, creation_date_time=OVERFLOW_YEAR)
+    with pytest.raises(RuntimeError, match="failed validation"):
+        generate_xml_string(
+            [record], version, template_path(version), schema_path(version)
+        )
 
 
 class TestSchemaCache:
