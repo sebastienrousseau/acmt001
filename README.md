@@ -8,13 +8,13 @@
   <a href="https://scorecard.dev/viewer/?uri=github.com/sebastienrousseau/acmt001"><img src="https://img.shields.io/ossf-scorecard/github.com/sebastienrousseau/acmt001?style=for-the-badge&label=OpenSSF%20Scorecard&logo=openssf" alt="OpenSSF Scorecard" height="28" /></a>
   <a href="https://www.bestpractices.dev/projects/15825"><img src="https://img.shields.io/cii/level/15825?style=for-the-badge&label=OpenSSF%20Best%20Practices&logo=openssf" alt="OpenSSF Best Practices" height="28" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg?style=for-the-badge" alt="License: Apache-2.0 OR MIT" height="28" /></a>
-  <a href="pyproject.toml"><img src="https://img.shields.io/badge/Python-3.10%2B-93450a.svg?style=for-the-badge&logo=python" alt="Python 3.10 or newer" height="28" /></a>
+  <a href="pyproject.toml"><img src="https://img.shields.io/badge/Python-3.11%2B-93450a.svg?style=for-the-badge&logo=python" alt="Python 3.11 or newer" height="28" /></a>
 </p>
 
 **Enterprise-grade ISO 20022 account-management message generation** — open,
 maintain, close, switch, and verify bank accounts from plain data files.
 
-> **Latest release: v0.0.13.** 34 ISO 20022 `acmt` message types,
+> **Latest release: v0.0.14.** 34 ISO 20022 `acmt` message types,
 > IBAN/BIC/LEI validation, charset compliance, a Click CLI, and a FastAPI
 > REST API. [See what's new][release-latest]
 
@@ -76,7 +76,7 @@ flowchart LR
 
 ## Install
 
-**Acmt001** runs on macOS, Linux, and Windows and requires **Python 3.10+** and
+**Acmt001** runs on macOS, Linux, and Windows and requires **Python 3.11+** and
 **pip**. All runtime dependencies install automatically.
 
 ```sh
@@ -89,7 +89,7 @@ Verify the installation:
 python -c "from acmt001 import generate_xml_string; print('Acmt001 ready')"
 ```
 
-The MCP and LSP servers ship as companion packages (Python 3.10+):
+The MCP and LSP servers ship as companion packages (Python 3.11+):
 
 ```sh
 python -m pip install acmt001-mcp    # Model Context Protocol server
@@ -173,7 +173,7 @@ Exit code `0` = valid, `1` = validation failed.
   protection on all file I/O.
 - **Type-safe** — full type hints, checked with `mypy --strict`.
 - **Well tested** — **987 tests at 99.88% branch coverage** across Python
-  3.10–3.12; `ruff` + `black` clean.
+  3.11–3.14; `ruff` + `black` clean.
 - **Four interfaces** — a Click CLI, a FastAPI REST API (with an interactive
   developer portal), an MCP server (for AI agents), and an LSP server (for
   editors) — all backed by one shared service layer.
@@ -430,7 +430,7 @@ and assistants can generate and validate ISO 20022 account messages as
 first-class tools. Install it and launch over stdio:
 
 ```sh
-pip install acmt001-mcp   # Python 3.10+
+pip install acmt001-mcp   # Python 3.11+
 acmt001-mcp
 ```
 
@@ -465,7 +465,7 @@ completion for field names and message types, and hover documentation from the
 input schema. Install it and launch over stdio:
 
 ```sh
-pip install acmt001-lsp   # Python 3.10+
+pip install acmt001-lsp   # Python 3.11+
 acmt001-lsp
 ```
 
@@ -572,7 +572,7 @@ acmt001/                  # the core package (this repo, packaged as `acmt001`)
 ```
 
 The **acmt001 suite** is a set of independently installable packages, each in
-its own repository (all Python 3.10+, all sharing the `acmt001.services` layer):
+its own repository (all Python 3.11+, all sharing the `acmt001.services` layer):
 
 | Package | Repository | Role |
 |---------|------------|------|
@@ -663,5 +663,5 @@ all [contributors][05].
 [01]: https://opensource.org/license/apache-2-0/
 [04]: https://github.com/sebastienrousseau/acmt001/blob/main/CONTRIBUTING.md
 [05]: https://github.com/sebastienrousseau/acmt001/graphs/contributors
-[release-latest]: https://github.com/sebastienrousseau/acmt001/releases/tag/v0.0.13
+[release-latest]: https://github.com/sebastienrousseau/acmt001/releases/tag/v0.0.14
 [banner]: https://cloudcdn.pro/acmt001/v1/logos/acmt001.svg 'Acmt001'

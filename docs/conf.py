@@ -1,9 +1,18 @@
 """Sphinx configuration for acmt001 documentation."""
 
+import tomllib
+from pathlib import Path
+
 project = "acmt001"
 copyright = "2026, Sebastien Rousseau"
 author = "Sebastien Rousseau"
-release = "0.0.1"
+# Read from pyproject.toml, the single source of the version; a literal
+# here said 0.0.1 until 0.0.14.
+with (Path(__file__).resolve().parent.parent / "pyproject.toml").open(
+    "rb"
+) as _pyproject:
+    release = tomllib.load(_pyproject)["tool"]["poetry"]["version"]
+version = release
 
 extensions = [
     "sphinx.ext.autodoc",

@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.14] - 2026-10-27
+
+The suite moves to Python 3.11 and ships `0.0.14` together:
+`acmt001-lsp` and `acmt001-mcp` follow this release and require it.
+
 ### Security
 
 - `requirements/audit.txt`, the Security workflow's pip-audit
@@ -15,6 +20,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   GHSA-567q-5qvw-pf92, GHSA-v4x8-3wr5-3wq8). The Python 3.10 split had
   pinned `filelock 4.1.0`; 4.2.1 needs Python 3.11.
 
+### Removed
+
+- **Python 3.10 is no longer supported; the floor is 3.11**, a decision
+  taken for the whole `acmt001` suite, which now shares one floor
+  (`acmt001-mcp` moved first, when Hypothesis 6.170.12 stopped
+  resolving on 3.10). `pyproject.toml` declares
+  `python = ">=3.11,<4.0"` (and the classifiers Poetry derives from
+  it), ruff, black and mypy target 3.11, the CI test matrix runs 3.11
+  to 3.14, and `make pip-compile` compiles for 3.11. The `tomli`
+  backport is gone from the dev group and `requirements/ci.in`;
+  `scripts/check_suite_consistency.py` and
+  `tests/test_package_version.py` import the stdlib `tomllib`
+  directly. `requirements/ci.txt`, `runtime.txt` and `build.txt` are
+  recompiled for 3.11, which only removes the 3.10 forks: no pin for
+  3.11 or newer moves. The README, `CONTRIBUTING.md` and the design
+  history file (which still said 3.9 to 3.12) state the new range.
+
+### Changed
+
+- `JobStatus`, `DataSourceType` and `MessageType` in `acmt001.api` are
+  `enum.StrEnum` rather than `(str, Enum)` (ruff UP042 on the 3.11
+  target). Members still compare equal to their string values and
+  serialise the same way in API responses; `str()` and `format()` of a
+  member now give its value (`"pending"`) instead of
+  `"JobStatus.PENDING"`.
+- The docs group allows Sphinx 8 (`sphinx = ">=7,<9"`, #23).
+- GitHub Actions pins move to `actions/setup-python` v7.1.0 and
+  `github/codeql-action` v4.39.1 (#22).
+
 ### Fixed
 
 - `validate_xml_string_via_xsd` and `validate_via_xsd` return `False`
@@ -22,6 +56,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `222222222026-01-15T10:30:00`), instead of letting elementpath's
   `OverflowError` escape. Generation reports it as its usual
   `RuntimeError` for XML that fails validation.
+- The Sphinx manual reads its release from `pyproject.toml`;
+  `docs/conf.py` had said `0.0.1` since the first release.
 
 ## [0.0.13] - 2026-10-23
 
