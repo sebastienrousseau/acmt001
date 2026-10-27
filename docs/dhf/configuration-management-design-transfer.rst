@@ -214,7 +214,7 @@ following verified characteristics:
    * - CI matrix configurations
      - 14 (12 test + 1 lint + 1 security)
    * - Python versions
-     - 3.9, 3.10, 3.11, 3.12
+     - 3.11, 3.12, 3.13, 3.14
    * - Operating systems
      - Linux (Ubuntu), macOS, Windows
    * - Data source formats

@@ -25,7 +25,7 @@ defusedxml = "0.7.1"
 jinja2 = "3.1.6"
 markupsafe = ">=2.1.5,<4"
 pygments = ">=2.20.0,<3.0.0"
-python = ">=3.10,<4.0"
+python = ">=3.11,<4.0"
 rich = ">=13.7.1,<16"
 xmlschema = ">=4.3.2,<5.0.0"
 # PYSEC-2026-3552 (GHSA-g6cj-pr64-35w5) is fixed in cryptography 50.0.0.
@@ -41,9 +41,6 @@ pyarrow = ">=23.0.1,<26.0.0"
 [tool.poetry.group.dev.dependencies]
 # Mirrors requirements/ci.in, the hash-pinned set CI installs.
 packaging = ">=23.0"
-# `tomllib` is stdlib only from 3.11; the version guard test needs a
-# TOML reader on the oldest supported interpreter.
-tomli = { version = ">=2.0", python = "<3.11" }
 pytest = ">=9.0.3,<10.0.0"
 pytest-cov = ">=6.0.0,<8.0.0"
 pytest-benchmark = ">=5.0.0,<6.0.0"
@@ -80,7 +77,7 @@ build-backend = "poetry.core.masonry.api"
 # so reformatting it would invalidate the check it exists to make.
 extend-exclude = "tests/test_suite_conformance\\.py"
 line-length = 79
-target-version = ['py310']
+target-version = ['py311']
 
 [tool.isort]
 profile = "black"
@@ -122,7 +119,7 @@ timeout = 5
 
 [tool.ruff]
 line-length = 79
-target-version = "py310"
+target-version = "py311"
 extend-exclude = [".github/*.md", "*.md", "docs/**/*.md", "releases/**/*.md", "tmp_env", ".venv", ".eggs"]
 
 [tool.ruff.lint]
@@ -138,6 +135,11 @@ ignore = ["E501"]
 "tests/test_coverage_gaps.py" = ["E402", "B017"]
 "tests/test_remaining_gaps.py" = ["E402"]
 "tests/test_csv_loader.py" = ["B017"]
+# The vendored suite conformance file is byte-pinned to its canonical
+# copy (black excludes it above for the same reason) and keeps a tomli
+# fallback for the suite's 3.10 floor; with this repository on 3.11 that
+# branch is dead, and the fix belongs in the canonical copy, not here.
+"tests/test_suite_conformance.py" = ["UP036"]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -145,7 +147,7 @@ indent-style = "space"
 skip-magic-trailing-comma = false
 
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.11"
 strict = true
 warn_return_any = true
 warn_unused_configs = true
