@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.14] - 2026-10-27
+
+The suite moves to Python 3.11 and ships `0.0.14` together:
+`acmt001-lsp` and `acmt001-mcp` follow this release and require it.
+
 ### Security
 
 - `requirements/audit.txt`, the Security workflow's pip-audit
@@ -40,6 +45,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   serialise the same way in API responses; `str()` and `format()` of a
   member now give its value (`"pending"`) instead of
   `"JobStatus.PENDING"`.
+- The docs group allows Sphinx 8 (`sphinx = ">=7,<9"`, #23).
+- GitHub Actions pins move to `actions/setup-python` v7.1.0 and
+  `github/codeql-action` v4.39.1 (#22).
 
 ### Fixed
 
@@ -48,6 +56,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `222222222026-01-15T10:30:00`), instead of letting elementpath's
   `OverflowError` escape. Generation reports it as its usual
   `RuntimeError` for XML that fails validation.
+- The Sphinx manual reads its release from `pyproject.toml`;
+  `docs/conf.py` had said `0.0.1` since the first release.
 
 ## [0.0.13] - 2026-10-23
 
