@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.15] - 2026-10-29
+
+The suite ships `0.0.15` together so its manuals build on Sphinx 9:
+`acmt001-lsp` and `acmt001-mcp` follow this release and require it. The
+library itself is unchanged.
+
+### Changed
+
+- The docs group allows Sphinx 9 (`sphinx = ">=7,<10"`), with
+  `sphinx-design` `<0.8`, `myst-parser` `<6` and
+  `sphinx-autodoc-typehints` `<4`, whose older ranges held Sphinx below 9.
+- `docs/conf.py` no longer points `html_static_path` at a missing
+  `docs/_static`, so the manual builds with `-W` and no warnings.
+
 ## [0.0.14] - 2026-10-27
 
 The suite moves to Python 3.11 and ships `0.0.14` together:
