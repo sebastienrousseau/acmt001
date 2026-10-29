@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "acmt001"
-version = "0.0.14"
+version = "0.0.15"
 description = "Acmt001 is a Python Library for Automating ISO 20022 acmt Account Management (account opening, maintenance, and closing) XML Messages."
 authors = ["Sebastien Rousseau <sebastian.rousseau@gmail.com>"]
 license = "Apache-2.0 OR MIT"
@@ -59,11 +59,11 @@ complexipy = { version = ">=8.1,<9", python = "<3.16" }
 optional = true
 
 [tool.poetry.group.docs.dependencies]
-sphinx = ">=7,<9"
+sphinx = ">=7,<10"
 pydata-sphinx-theme = ">=0.15,<0.18"
-sphinx-autodoc-typehints = ">=1,<3"
-sphinx-design = "^0.6.0"
-myst-parser = ">=2,<5"
+sphinx-autodoc-typehints = ">=1,<4"
+sphinx-design = ">=0.6.0,<0.8"
+myst-parser = ">=2,<6"
 # pydata-sphinx-theme reaches soupsieve through beautifulsoup4;
 # PYSEC-2026-4170/4171 (GHSA-gjv8-xp57-g29c) are fixed in 2.9.0.
 soupsieve = ">=2.9.0"
