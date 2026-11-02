@@ -34,7 +34,7 @@ jsonschema = ">=4.20,<4.27"
 fastapi = ">=0.95"
 uvicorn = {version = ">=0.20", extras = ["standard"]}
 httpx = ">=0.23"
-pyarrow = ">=23.0.1,<26.0.0"
+pyarrow = ">=23.0.1,<27.0.0"
 # Note: jsonschema is held at >=4.20 so the core library is co-installable with
 # the acmt001-mcp companion package (which requires the MCP SDK / jsonschema>=4.20).
 
