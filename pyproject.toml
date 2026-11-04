@@ -34,7 +34,7 @@ jsonschema = ">=4.20,<4.27"
 fastapi = ">=0.95"
 uvicorn = {version = ">=0.20", extras = ["standard"]}
 httpx = ">=0.23"
-pyarrow = ">=23.0.1,<26.0.0"
+pyarrow = ">=23.0.1,<27.0.0"
 # Note: jsonschema is held at >=4.20 so the core library is co-installable with
 # the acmt001-mcp companion package (which requires the MCP SDK / jsonschema>=4.20).
 
@@ -60,7 +60,7 @@ optional = true
 
 [tool.poetry.group.docs.dependencies]
 sphinx = ">=7,<10"
-pydata-sphinx-theme = ">=0.15,<0.18"
+pydata-sphinx-theme = ">=0.15,<0.24"
 sphinx-autodoc-typehints = ">=1,<4"
 sphinx-design = ">=0.6.0,<0.8"
 myst-parser = ">=2,<6"
