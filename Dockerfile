@@ -2,7 +2,7 @@
 # --no-deps over the hash-pinned runtime tree, so the image resolves
 # nothing unpinned (OpenSSF Scorecard Pinned-Dependencies). Dependabot
 # keeps the base image digest current.
-FROM python:3.12-slim@sha256:a0f57064cbdcd6285fa45f51237ab0b35ea8ebaed06a1f5973e89e19dfb86704 AS builder
+FROM python:3.15-slim@sha256:94d3426f1def7db4a106a232ac121bfd975393e5dfd40a619b955fae45fe7913 AS builder
 
 WORKDIR /src
 COPY requirements/build.txt ./requirements/build.txt
@@ -11,7 +11,7 @@ COPY pyproject.toml README.md ./
 COPY acmt001/ ./acmt001/
 RUN python -m build --wheel --no-isolation --outdir /dist
 
-FROM python:3.12-slim@sha256:a0f57064cbdcd6285fa45f51237ab0b35ea8ebaed06a1f5973e89e19dfb86704 AS base
+FROM python:3.15-slim@sha256:94d3426f1def7db4a106a232ac121bfd975393e5dfd40a619b955fae45fe7913 AS base
 
 LABEL maintainer="Sebastien Rousseau <sebastian.rousseau@gmail.com>"
 LABEL description="Acmt001 ISO 20022 acmt Account Management XML Generation API"
