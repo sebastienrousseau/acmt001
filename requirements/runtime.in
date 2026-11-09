@@ -24,6 +24,6 @@ pyarrow>=23.0.1,<27.0.0
 # resolve: anyio PYSEC-2026-4023/4024/4025 (via httpx and starlette),
 # opentelemetry-api GHSA-xcq7-p3pf-p88h (via fastapi), certifi
 # PYSEC-2026-4320 (GHSA-6q48-6c7w-9gw2, via httpx).
-anyio>=4.14.2
+anyio>=4.16.0
 opentelemetry-api>=1.45.2
 certifi>=2026.10.23
