@@ -62,7 +62,7 @@ optional = true
 sphinx = ">=7,<10"
 pydata-sphinx-theme = ">=0.15,<0.24"
 sphinx-autodoc-typehints = ">=1,<4"
-sphinx-design = ">=0.6.0,<0.8"
+sphinx-design = ">=0.6.0,<0.9"
 myst-parser = ">=2,<6"
 # pydata-sphinx-theme reaches soupsieve through beautifulsoup4;
 # PYSEC-2026-4170/4171 (GHSA-gjv8-xp57-g29c) are fixed in 2.9.0.
